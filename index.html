@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B2B Mozambique — Registar Empresa</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ── Navbar ──────────────────────────────────────────────── -->
+<nav class="navbar">
+  <div class="navbar-brand">B2B Mozambique <span>/ Registar Empresa</span></div>
+  <span class="navbar-badge">Google Drive Sync</span>
+</nav>
+
+<!-- ── Página ──────────────────────────────────────────────── -->
+<div class="page-wrap">
+
+  <div class="page-header">
+    <h1>Nova Empresa</h1>
+    <p>Preenche todos os campos. Os dados serão guardados directamente no Google Drive.</p>
+  </div>
+
+  <!-- Steps -->
+  <div class="steps">
+    <div class="step active" id="step-1">1 · Identidade</div>
+    <div class="step" id="step-2">2 · Detalhes</div>
+    <div class="step" id="step-3">3 · Contactos</div>
+    <div class="step" id="step-4">4 · Serviços</div>
+    <div class="step" id="step-5">5 · Estatísticas</div>
+  </div>
+
+  <!-- Mensagem de estado -->
+  <div id="status-msg"></div>
+
+  <form id="company-form" novalidate>
+
+    <!-- ══════════════════════════════════════════════════════
+         SECÇÃO 1 — IDENTIDADE
+    ══════════════════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-title">Identidade da Empresa</div>
+
+      <div class="field">
+        <label>Nome da empresa <span class="req">*</span></label>
+        <input type="text" id="nome" placeholder="Ex: Logistica Global S.A." required>
+      </div>
+
+      <div class="row-2">
+        <div class="field">
+          <label>Logótipo</label>
+          <div class="upload-box" onclick="document.getElementById('logo-input').click()">
+            <input type="file" id="logo-input" accept="image/*" onchange="previewImage(this,'logo-preview')">
+            <div class="upload-icon">🖼</div>
+            <div class="upload-label"><strong>Clica</strong> para seleccionar</div>
+            <div class="hint">PNG, SVG — fundo transparente</div>
+            <img id="logo-preview" class="upload-preview">
+          </div>
+        </div>
+        <div class="field">
+          <label>Imagem de capa</label>
+          <div class="upload-box" onclick="document.getElementById('cover-input').click()">
+            <input type="file" id="cover-input" accept="image/*" onchange="previewImage(this,'cover-preview')">
+            <div class="upload-icon">🏔</div>
+            <div class="upload-label"><strong>Clica</strong> para seleccionar</div>
+            <div class="hint">1200×400px recomendado</div>
+            <img id="cover-preview" class="upload-preview">
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Badges</label>
+        <div class="badge-group">
+          <label class="badge-opt">
+            <input type="checkbox" name="badges" value="Verified Enterprise"> ✓ Verified Enterprise
+          </label>
+          <label class="badge-opt">
+            <input type="checkbox" name="badges" value="Top Rated 2024"> ★ Top Rated 2024
+          </label>
+          <label class="badge-opt">
+            <input type="checkbox" name="badges" value="Top Rated 2025"> ★ Top Rated 2025
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Descrição da empresa <span class="req">*</span></label>
+        <textarea id="descricao" placeholder="Descreva a empresa, missão, diferenciais e mercados que serve..." required></textarea>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════
+         SECÇÃO 2 — DETALHES DO NEGÓCIO
+    ══════════════════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-title">Detalhes do Negócio</div>
+
+      <div class="row-3">
+        <div class="field">
+          <label>NUIT / TIN</label>
+          <input type="text" id="nuit" placeholder="400588219">
+        </div>
+        <div class="field">
+          <label>Ano de fundação</label>
+          <input type="number" id="fundacao" placeholder="2012" min="1900" max="2025">
+        </div>
+        <div class="field">
+          <label>Nº de funcionários</label>
+          <select id="funcionarios">
+            <option value="">Selecionar</option>
+            <option>1 – 10</option>
+            <option>11 – 50</option>
+            <option>51 – 100</option>
+            <option>100 – 250</option>
+            <option>250 – 500</option>
+            <option>500+</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row-2">
+        <div class="field">
+          <label>Indústria / Categoria <span class="req">*</span></label>
+          <select id="industria" required>
+            <option value="">Selecionar</option>
+            <option>Logística &amp; Supply Chain</option>
+            <option>Energia &amp; Mineração</option>
+            <option>Agricultura</option>
+            <option>Finanças &amp; Fintech</option>
+            <option>Construção</option>
+            <option>ICT</option>
+            <option>Comércio</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Província <span class="req">*</span></label>
+          <select id="provincia" required>
+            <option value="">Selecionar</option>
+            <option>Maputo Cidade</option>
+            <option>Maputo</option>
+            <option>Gaza</option>
+            <option>Inhambane</option>
+            <option>Sofala</option>
+            <option>Manica</option>
+            <option>Tete</option>
+            <option>Zambézia</option>
+            <option>Nampula</option>
+            <option>Cabo Delgado</option>
+            <option>Niassa</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════
+         SECÇÃO 3 — CONTACTOS
+    ══════════════════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-title">Contactos</div>
+
+      <div class="row-2">
+        <div class="field">
+          <label>Email</label>
+          <input type="email" id="email" placeholder="contact@empresa.mz">
+        </div>
+        <div class="field">
+          <label>Telefone</label>
+          <input type="tel" id="telefone" placeholder="+258 21 000 0000">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Website</label>
+        <input type="url" id="website" placeholder="https://www.empresa.mz">
+      </div>
+
+      <div class="row-2">
+        <div class="field">
+          <label>LinkedIn</label>
+          <input type="url" id="linkedin" placeholder="https://linkedin.com/company/...">
+        </div>
+        <div class="field">
+          <label>Facebook</label>
+          <input type="url" id="twitter" placeholder="https://facebook.com/...">
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════
+         SECÇÃO 4 — SERVIÇOS
+    ══════════════════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-title">Serviços Oferecidos</div>
+
+      <div id="services-container">
+        <!-- Serviços adicionados dinamicamente aqui -->
+      </div>
+
+      <button type="button" class="btn-add" onclick="addService()">
+        + Adicionar Serviço
+      </button>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════
+         SECÇÃO 5 — ESTATÍSTICAS
+    ══════════════════════════════════════════════════════ -->
+    <div class="section">
+      <div class="section-title">Estatísticas da Empresa</div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-card-label">Anos de experiência</div>
+          <input type="number" id="stat-exp" placeholder="Ex: 12" min="0">
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">Cargas / pedidos entregues</div>
+          <input type="text" id="stat-entregas" placeholder="Ex: 45000">
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">Safety rating (%)</div>
+          <input type="number" id="stat-rating" placeholder="Ex: 99" min="0" max="100">
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">Frota activa / outro KPI</div>
+          <input type="text" id="stat-frota" placeholder="Ex: 150">
+        </div>
+      </div>
+
+      <div style="margin-top: 1rem;">
+        <label>Labels dos cards <span class="hint" style="display:inline">(personalizáveis)</span></label>
+        <div class="row-2" style="margin-top: 6px;">
+          <input type="text" id="label-1" placeholder="Years Experience" value="Years Experience">
+          <input type="text" id="label-2" placeholder="Delivered Loads" value="Delivered Loads">
+        </div>
+        <div class="row-2" style="margin-top: 8px;">
+          <input type="text" id="label-3" placeholder="Safety Rating" value="Safety Rating">
+          <input type="text" id="label-4" placeholder="Active Fleet" value="Active Fleet">
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Acções ────────────────────────────────────────── -->
+    <div class="form-actions">
+      <button type="button" class="btn-secondary" onclick="resetForm()">Limpar formulário</button>
+      <button type="submit" class="btn-primary" id="btn-submit">
+        Submeter →
+      </button>
+    </div>
+
+  </form>
+
+  <div class="form-footer">
+    B2B Mozambique · Os dados são guardados directamente na tua conta Google Drive
+  </div>
+
+</div><!-- /page-wrap -->
+
+<!-- ── Google Identity Services ────────────────────────────── -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+
+<!-- ── Ficheiros do projecto ────────────────────────────────── -->
+<script src="config.js"></script>
+<script src="drive.js"></script>
+
+<!-- ── Lógica do formulário ────────────────────────────────── -->
+<script>
+
+// ── Contador de serviços ──────────────────────────────────
+let serviceCount = 0;
+
+// Adiciona 1 serviço ao arrancar
+window.addEventListener('load', () => {
+  initGoogleDrive();
+  addService();
+  updateSteps();
+});
+
+// ── Adicionar bloco de serviço ────────────────────────────
+function addService() {
+  serviceCount++;
+  const n   = serviceCount;
+  const div = document.createElement('div');
+  div.className = 'service-block';
+  div.id = 'service-' + n;
+  div.innerHTML = `
+    <div class="service-block-header">
+      <span class="service-num">Serviço ${n}</span>
+      ${n > 1 ? `<button type="button" class="btn-remove-service" onclick="removeService(${n})">Remover</button>` : ''}
+    </div>
+    <div class="field">
+      <label>Nome do serviço</label>
+      <input type="text" id="s${n}-nome" placeholder="Ex: Cross-Border Freight">
+    </div>
+    <div class="field">
+      <label>Descrição</label>
+      <textarea id="s${n}-desc" style="min-height:70px" placeholder="Descrição breve do serviço..."></textarea>
+    </div>
+    <div class="field">
+      <label>Imagem do serviço</label>
+      <div class="upload-box" onclick="document.getElementById('s${n}-img').click()">
+        <input type="file" id="s${n}-img" accept="image/*" onchange="previewImage(this,'s${n}-preview')">
+        <div class="upload-icon">📷</div>
+        <div class="upload-label"><strong>Clica</strong> para seleccionar</div>
+        <img id="s${n}-preview" class="upload-preview">
+      </div>
+    </div>
+    <div class="row-2">
+      <div class="field">
+        <label>Tipo de preço</label>
+        <select id="s${n}-tipo">
+          <option>Starting from</option>
+          <option>Per month</option>
+          <option>From</option>
+          <option>Fixed price</option>
+          <option>Request Quote</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Valor (MT)</label>
+        <input type="number" id="s${n}-preco" placeholder="0" min="0">
+      </div>
+    </div>
+  `;
+  document.getElementById('services-container').appendChild(div);
+}
+
+// ── Remover serviço ────────────────────────────────────────
+function removeService(n) {
+  const el = document.getElementById('service-' + n);
+  if (el) el.remove();
+}
+
+// ── Preview de imagem ao seleccionar ──────────────────────
+function previewImage(input, previewId) {
+  const preview = document.getElementById(previewId);
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      preview.src = e.target.result;
+      preview.style.display = 'block';
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+// ── Actualizar indicador de steps ─────────────────────────
+function updateSteps() {
+  const steps = document.querySelectorAll('.step');
+  steps.forEach((s, i) => {
+    const sections = document.querySelectorAll('.section');
+    const section  = sections[i];
+    if (!section) return;
+    const rect = section.getBoundingClientRect();
+    if (rect.top < window.innerHeight / 2) {
+      steps.forEach(x => x.classList.remove('active'));
+      s.classList.add('active');
+    }
+  });
+}
+window.addEventListener('scroll', updateSteps);
+
+// ── Recolher dados de todos os serviços ───────────────────
+function collectServices() {
+  const servicos = [];
+  const container = document.getElementById('services-container');
+  const blocks = container.querySelectorAll('.service-block');
+  blocks.forEach((block, i) => {
+    const n = block.id.replace('service-', '');
+    const nomeEl  = document.getElementById(`s${n}-nome`);
+    const descEl  = document.getElementById(`s${n}-desc`);
+    const tipoEl  = document.getElementById(`s${n}-tipo`);
+    const precoEl = document.getElementById(`s${n}-preco`);
+    const imgEl   = document.getElementById(`s${n}-img`);
+    if (!nomeEl) return;
+    servicos.push({
+      nome:      nomeEl.value.trim(),
+      descricao: descEl  ? descEl.value.trim()  : '',
+      precoTipo: tipoEl  ? tipoEl.value         : '',
+      preco:     precoEl ? precoEl.value         : '',
+      imagem:    imgEl && imgEl.files[0] ? imgEl.files[0] : null,
+    });
+  });
+  return servicos;
+}
+
+// ── Validação simples ─────────────────────────────────────
+function validate() {
+  const nome = document.getElementById('nome').value.trim();
+  if (!nome) {
+    _showStatus('Por favor preenche o nome da empresa.', 'error');
+    document.getElementById('nome').focus();
+    return false;
+  }
+  const desc = document.getElementById('descricao').value.trim();
+  if (!desc) {
+    _showStatus('Por favor preenche a descrição da empresa.', 'error');
+    document.getElementById('descricao').focus();
+    return false;
+  }
+  return true;
+}
+
+// ── Submeter formulário ───────────────────────────────────
+document.getElementById('company-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  if (!validate()) return;
+
+  const btn = document.getElementById('btn-submit');
+  btn.disabled = true;
+  btn.textContent = 'A guardar...';
+
+  // Recolher badges
+  const badges = [...document.querySelectorAll('input[name="badges"]:checked')]
+    .map(b => b.value);
+
+  // Montar objecto de dados
+  const formData = {
+    nome:         document.getElementById('nome').value.trim(),
+    descricao:    document.getElementById('descricao').value.trim(),
+    badges,
+    nuit:         document.getElementById('nuit').value.trim(),
+    fundacao:     document.getElementById('fundacao').value,
+    funcionarios: document.getElementById('funcionarios').value,
+    industria:    document.getElementById('industria').value,
+    provincia:    document.getElementById('provincia').value,
+    email:        document.getElementById('email').value.trim(),
+    telefone:     document.getElementById('telefone').value.trim(),
+    website:      document.getElementById('website').value.trim(),
+    linkedin:     document.getElementById('linkedin').value.trim(),
+    twitter:      document.getElementById('twitter').value.trim(),
+    logo:         document.getElementById('logo-input').files[0]  || null,
+    cover:        document.getElementById('cover-input').files[0] || null,
+    servicos:     collectServices(),
+    stats: {
+      exp:      document.getElementById('stat-exp').value,
+      entregas: document.getElementById('stat-entregas').value,
+      rating:   document.getElementById('stat-rating').value,
+      frota:    document.getElementById('stat-frota').value,
+      labels: [
+        document.getElementById('label-1').value,
+        document.getElementById('label-2').value,
+        document.getElementById('label-3').value,
+        document.getElementById('label-4').value,
+      ],
+    },
+  };
+
+  // Enviar para o Drive
+  submitCompanyToDrive(formData).finally(() => {
+    btn.disabled = false;
+    btn.textContent = 'Submeter →';
+  });
+});
+
+// ── Limpar formulário ─────────────────────────────────────
+function resetForm() {
+  if (!confirm('Tens a certeza que queres limpar o formulário?')) return;
+  document.getElementById('company-form').reset();
+  document.querySelectorAll('.upload-preview').forEach(p => {
+    p.src = '';
+    p.style.display = 'none';
+  });
+  document.getElementById('services-container').innerHTML = '';
+  serviceCount = 0;
+  addService();
+  document.getElementById('status-msg').style.display = 'none';
+}
+
+</script>
+</body>
+</html>
