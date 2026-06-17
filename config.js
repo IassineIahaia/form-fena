@@ -1,6 +1,4 @@
 const CONFIG = {
-  CLIENT_ID: "801909370550-07eenra7lppbrq9h66agf9i506gjupm8.apps.googleusercontent.com",
-  FOLDER_ID: "1gVOV9Ef-iGwb6c3dLSTGTMSrXyQ6A7rA",
-  SCOPES:    "https://www.googleapis.com/auth/drive.file",
-  DISCOVERY: "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest",
+  SCRIPT_URL:
+    "https://script.google.com/macros/s/AKfycbw4Ci6q1CCeQLR9abUdMy88qgNXpC0kFvFUkzReiSte7HoJQ0FMnvpRcL5jMTy50NZp/exec",
 };

@@ -357,6 +357,10 @@ select {
   padding: .85rem 1.1rem;
   font-size: .875rem;
   margin-bottom: 1rem;
+  position: sticky;
+  top: 70px;
+  z-index: 50;
+  box-shadow: 0 4px 12px rgba(0,0,0,.08);
 }
 
 #status-msg a { color: inherit; font-weight: 600; }

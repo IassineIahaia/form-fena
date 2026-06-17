@@ -11,7 +11,7 @@
 <!-- ── Navbar ──────────────────────────────────────────────── -->
 <nav class="navbar">
   <div class="navbar-brand">B2B Mozambique <span>/ Registar Empresa</span></div>
-  <span class="navbar-badge">Google Drive Sync</span>
+  <span class="navbar-badge">MarketAccess</span>
 </nav>
 
 <!-- ── Página ──────────────────────────────────────────────── -->
@@ -50,7 +50,7 @@
       <div class="row-2">
         <div class="field">
           <label>Logótipo</label>
-          <div class="upload-box" onclick="document.getElementById('logo-input').click()">
+          <div class="upload-box">
             <input type="file" id="logo-input" accept="image/*" onchange="previewImage(this,'logo-preview')">
             <div class="upload-icon">🖼</div>
             <div class="upload-label"><strong>Clica</strong> para seleccionar</div>
@@ -60,7 +60,7 @@
         </div>
         <div class="field">
           <label>Imagem de capa</label>
-          <div class="upload-box" onclick="document.getElementById('cover-input').click()">
+          <div class="upload-box">
             <input type="file" id="cover-input" accept="image/*" onchange="previewImage(this,'cover-preview')">
             <div class="upload-icon">🏔</div>
             <div class="upload-label"><strong>Clica</strong> para seleccionar</div>
@@ -92,10 +92,10 @@
     </div>
 
     <!-- ══════════════════════════════════════════════════════
-         SECÇÃO 2 — DETALHES DO NEGÓCIO
+         SECÇÃO 2 — DETALHES DA EMPRESA
     ══════════════════════════════════════════════════════ -->
     <div class="section">
-      <div class="section-title">Detalhes do Negócio</div>
+      <div class="section-title">Detalhes da Empresa</div>
 
       <div class="row-3">
         <div class="field">
@@ -107,15 +107,13 @@
           <input type="number" id="fundacao" placeholder="2012" min="1900" max="2025">
         </div>
         <div class="field">
-          <label>Nº de funcionários</label>
-          <select id="funcionarios">
+          <label>Porte da empresa</label>
+          <select id="porte">
             <option value="">Selecionar</option>
-            <option>1 – 10</option>
-            <option>11 – 50</option>
-            <option>51 – 100</option>
-            <option>100 – 250</option>
-            <option>250 – 500</option>
-            <option>500+</option>
+            <option>Micro empresa</option>
+            <option>Pequena empresa</option>
+            <option>Média empresa</option>
+            <option>Grande empresa</option>
           </select>
         </div>
       </div>
@@ -135,6 +133,17 @@
           </select>
         </div>
         <div class="field">
+          <label>A empresa está legalizada? <span class="req">*</span></label>
+          <select id="legalizada" required>
+            <option value="">Selecionar</option>
+            <option value="Sim">Sim</option>
+            <option value="Não">Não</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row-2">
+        <div class="field">
           <label>Província <span class="req">*</span></label>
           <select id="provincia" required>
             <option value="">Selecionar</option>
@@ -151,6 +160,15 @@
             <option>Niassa</option>
           </select>
         </div>
+        <div class="field">
+          <label>Cidade</label>
+          <input type="text" id="cidade" placeholder="Ex: Nampula">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Endereço</label>
+        <input type="text" id="endereco" placeholder="Ex: Av. Eduardo Mondlane, nº 123, Bairro Central">
       </div>
     </div>
 
@@ -182,8 +200,8 @@
           <input type="url" id="linkedin" placeholder="https://linkedin.com/company/...">
         </div>
         <div class="field">
-          <label>Facebook</label>
-          <input type="url" id="twitter" placeholder="https://facebook.com/...">
+          <label>Twitter / X</label>
+          <input type="url" id="twitter" placeholder="https://twitter.com/...">
         </div>
       </div>
     </div>
@@ -215,16 +233,16 @@
           <input type="number" id="stat-exp" placeholder="Ex: 12" min="0">
         </div>
         <div class="stat-card">
-          <div class="stat-card-label">Cargas / pedidos entregues</div>
-          <input type="text" id="stat-entregas" placeholder="Ex: 45000">
+          <div class="stat-card-label">Capacidade / Volume de produção</div>
+          <input type="text" id="stat-producao" placeholder="Ex: 45000 unidades/mês">
         </div>
         <div class="stat-card">
-          <div class="stat-card-label">Safety rating (%)</div>
-          <input type="number" id="stat-rating" placeholder="Ex: 99" min="0" max="100">
+          <div class="stat-card-label">Volume de vendas</div>
+          <input type="text" id="stat-vendas" placeholder="Ex: 2.5M MT/ano">
         </div>
         <div class="stat-card">
-          <div class="stat-card-label">Frota activa / outro KPI</div>
-          <input type="text" id="stat-frota" placeholder="Ex: 150">
+          <div class="stat-card-label">Outro KPI relevante</div>
+          <input type="text" id="stat-extra" placeholder="Ex: 150 clientes activos">
         </div>
       </div>
 
@@ -232,11 +250,11 @@
         <label>Labels dos cards <span class="hint" style="display:inline">(personalizáveis)</span></label>
         <div class="row-2" style="margin-top: 6px;">
           <input type="text" id="label-1" placeholder="Years Experience" value="Years Experience">
-          <input type="text" id="label-2" placeholder="Delivered Loads" value="Delivered Loads">
+          <input type="text" id="label-2" placeholder="Production Volume" value="Production Volume">
         </div>
         <div class="row-2" style="margin-top: 8px;">
-          <input type="text" id="label-3" placeholder="Safety Rating" value="Safety Rating">
-          <input type="text" id="label-4" placeholder="Active Fleet" value="Active Fleet">
+          <input type="text" id="label-3" placeholder="Sales Volume" value="Sales Volume">
+          <input type="text" id="label-4" placeholder="Active Clients" value="Active Clients">
         </div>
       </div>
     </div>
@@ -252,13 +270,10 @@
   </form>
 
   <div class="form-footer">
-    B2B Mozambique · Os dados são guardados directamente na tua conta Google Drive
+    &copy; Iassine Iahaia - Marketaccess
   </div>
 
 </div><!-- /page-wrap -->
-
-<!-- ── Google Identity Services ────────────────────────────── -->
-<script src="https://accounts.google.com/gsi/client" async defer></script>
 
 <!-- ── Ficheiros do projecto ────────────────────────────────── -->
 <script src="config.js"></script>
@@ -299,27 +314,11 @@ function addService() {
     </div>
     <div class="field">
       <label>Imagem do serviço</label>
-      <div class="upload-box" onclick="document.getElementById('s${n}-img').click()">
+      <div class="upload-box">
         <input type="file" id="s${n}-img" accept="image/*" onchange="previewImage(this,'s${n}-preview')">
         <div class="upload-icon">📷</div>
         <div class="upload-label"><strong>Clica</strong> para seleccionar</div>
         <img id="s${n}-preview" class="upload-preview">
-      </div>
-    </div>
-    <div class="row-2">
-      <div class="field">
-        <label>Tipo de preço</label>
-        <select id="s${n}-tipo">
-          <option>Starting from</option>
-          <option>Per month</option>
-          <option>From</option>
-          <option>Fixed price</option>
-          <option>Request Quote</option>
-        </select>
-      </div>
-      <div class="field">
-        <label>Valor (MT)</label>
-        <input type="number" id="s${n}-preco" placeholder="0" min="0">
       </div>
     </div>
   `;
@@ -370,15 +369,11 @@ function collectServices() {
     const n = block.id.replace('service-', '');
     const nomeEl  = document.getElementById(`s${n}-nome`);
     const descEl  = document.getElementById(`s${n}-desc`);
-    const tipoEl  = document.getElementById(`s${n}-tipo`);
-    const precoEl = document.getElementById(`s${n}-preco`);
     const imgEl   = document.getElementById(`s${n}-img`);
     if (!nomeEl) return;
     servicos.push({
       nome:      nomeEl.value.trim(),
       descricao: descEl  ? descEl.value.trim()  : '',
-      precoTipo: tipoEl  ? tipoEl.value         : '',
-      preco:     precoEl ? precoEl.value         : '',
       imagem:    imgEl && imgEl.files[0] ? imgEl.files[0] : null,
     });
   });
@@ -405,6 +400,7 @@ function validate() {
 // ── Submeter formulário ───────────────────────────────────
 document.getElementById('company-form').addEventListener('submit', function(e) {
   e.preventDefault();
+  e.stopPropagation();
   if (!validate()) return;
 
   const btn = document.getElementById('btn-submit');
@@ -422,9 +418,12 @@ document.getElementById('company-form').addEventListener('submit', function(e) {
     badges,
     nuit:         document.getElementById('nuit').value.trim(),
     fundacao:     document.getElementById('fundacao').value,
-    funcionarios: document.getElementById('funcionarios').value,
+    porte:        document.getElementById('porte').value,
     industria:    document.getElementById('industria').value,
+    legalizada:   document.getElementById('legalizada').value,
     provincia:    document.getElementById('provincia').value,
+    cidade:       document.getElementById('cidade').value.trim(),
+    endereco:     document.getElementById('endereco').value.trim(),
     email:        document.getElementById('email').value.trim(),
     telefone:     document.getElementById('telefone').value.trim(),
     website:      document.getElementById('website').value.trim(),
@@ -435,9 +434,9 @@ document.getElementById('company-form').addEventListener('submit', function(e) {
     servicos:     collectServices(),
     stats: {
       exp:      document.getElementById('stat-exp').value,
-      entregas: document.getElementById('stat-entregas').value,
-      rating:   document.getElementById('stat-rating').value,
-      frota:    document.getElementById('stat-frota').value,
+      producao: document.getElementById('stat-producao').value,
+      vendas:   document.getElementById('stat-vendas').value,
+      extra:    document.getElementById('stat-extra').value,
       labels: [
         document.getElementById('label-1').value,
         document.getElementById('label-2').value,
@@ -452,6 +451,8 @@ document.getElementById('company-form').addEventListener('submit', function(e) {
     btn.disabled = false;
     btn.textContent = 'Submeter →';
   });
+
+  return false;
 });
 
 // ── Limpar formulário ─────────────────────────────────────
