@@ -148,7 +148,7 @@ async function submitCompanyToDrive(formData) {
     }
 
     // ── Enviar para o Apps Script ─────────────────────────
-    _showStatus("A enviar para o Google Drive... isto pode demorar um pouco.", "loading");
+    _showStatus("A enviar para Marketacess... isto pode demorar um pouco.", "loading");
 
     const res = await fetchWithRetry(CONFIG.SCRIPT_URL, {
       method:  "POST",
@@ -159,7 +159,7 @@ async function submitCompanyToDrive(formData) {
     const result = await res.json();
 
     if (result.ok) {
-      let msg = `✅ "${result.empresa}" guardada com sucesso! <a href="${result.pasta}" target="_blank">Ver no Drive →</a>`;
+      let msg = `✅ "${result.empresa}" guardada com sucesso!`;
       if (imagensFalhadas.length > 0) {
         msg += `<br><br>⚠️ Estas imagens não foram guardadas (formato não suportado, ex: HEIC do iPhone — converte para JPG/PNG e tenta de novo): ${imagensFalhadas.join(", ")}`;
       }
