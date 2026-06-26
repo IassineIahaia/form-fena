@@ -1,21 +1,13 @@
 // ============================================================
-//  drive.js — B2B Mozambique · Envio via Apps Script
-//  Sem login Google. Qualquer pessoa pode submeter.
+//  drive.js — OHOLO Hub · Envio via Apps Script
+//  Suporta vertente "empresa" e "individual"
 // ============================================================
 
-// ============================================================
-//  Redimensionar + comprimir imagem antes de converter
-//  Evita payloads gigantes que falham em redes móveis.
-//  maxDim: maior dimensão (largura ou altura) em pixels
-//  NUNCA rejeita — se falhar, devolve null e o envio continua.
-// ============================================================
 function compressImage(file, maxDim = 1280, quality = 0.75) {
   return new Promise((resolve) => {
     if (!file) return resolve(null);
 
-    // Tipos que o <canvas> normalmente não consegue desenhar
-    // (ex: HEIC/HEIF do iPhone). Avisamos e ignoramos a imagem.
-    const tipo = (file.type || "").toLowerCase();
+    const tipo    = (file.type || "").toLowerCase();
     const nomeExt = (file.name || "").toLowerCase();
     if (tipo.includes("heic") || tipo.includes("heif") || nomeExt.endsWith(".heic") || nomeExt.endsWith(".heif")) {
       console.warn("Formato HEIC/HEIF não suportado, a ignorar imagem:", file.name);
@@ -23,121 +15,131 @@ function compressImage(file, maxDim = 1280, quality = 0.75) {
       return;
     }
 
-    const img = new Image();
+    const img    = new Image();
     const reader = new FileReader();
 
     reader.onload = (e) => {
       img.onload = () => {
         try {
           let { width, height } = img;
-
           if (width > height && width > maxDim) {
             height = Math.round((height * maxDim) / width);
-            width = maxDim;
+            width  = maxDim;
           } else if (height > maxDim) {
-            width = Math.round((width * maxDim) / height);
+            width  = Math.round((width * maxDim) / height);
             height = maxDim;
           }
-
           const canvas = document.createElement("canvas");
-          canvas.width = width;
+          canvas.width  = width;
           canvas.height = height;
-          const ctx = canvas.getContext("2d");
-          ctx.drawImage(img, 0, 0, width, height);
-
-          // Sempre exportar como JPEG para máxima compressão
-          const dataUrl = canvas.toDataURL("image/jpeg", quality);
-          resolve(dataUrl);
+          canvas.getContext("2d").drawImage(img, 0, 0, width, height);
+          resolve(canvas.toDataURL("image/jpeg", quality));
         } catch (err) {
-          console.warn("Erro ao comprimir imagem, a ignorar:", file.name, err);
+          console.warn("Erro ao comprimir imagem:", file.name, err);
           resolve(null);
         }
       };
-      img.onerror = () => {
-        console.warn("Imagem ilegível pelo browser, a ignorar:", file.name);
-        resolve(null);
-      };
+      img.onerror = () => { console.warn("Imagem ilegível:", file.name); resolve(null); };
       img.src = e.target.result;
     };
-    reader.onerror = () => {
-      console.warn("Erro ao ler ficheiro, a ignorar:", file.name);
-      resolve(null);
-    };
+    reader.onerror = () => { console.warn("Erro ao ler ficheiro:", file.name); resolve(null); };
     reader.readAsDataURL(file);
   });
 }
 
 // ============================================================
-//  Calcular tamanho aproximado (em MB) de uma string base64
-// ============================================================
-function base64SizeMB(dataUrl) {
-  if (!dataUrl) return 0;
-  const base64 = dataUrl.split(",")[1] || "";
-  return (base64.length * 0.75) / (1024 * 1024);
-}
-
-// ============================================================
-//  PROCESSO COMPLETO — chamado pelo formulário ao submeter
+//  PROCESSO COMPLETO
 // ============================================================
 async function submitCompanyToDrive(formData) {
   _showStatus("A preparar dados...", "loading");
 
   try {
     const imagensFalhadas = [];
+    const isEmpresa       = formData.vertente !== 'individual';
 
-    // ── Comprimir + converter logo e capa ─────────────────
-    _showStatus("A comprimir imagens (logo e capa)...", "loading");
-    const logoBase64  = await compressImage(formData.logo,  800, 0.8);
-    const coverBase64 = await compressImage(formData.cover, 1280, 0.75);
+    // ── Comprimir imagens ─────────────────────────────────
+    let logoBase64  = null;
+    let coverBase64 = null;
+    let fotoBase64  = null;
 
-    if (formData.logo && !logoBase64)   imagensFalhadas.push("Logótipo");
-    if (formData.cover && !coverBase64) imagensFalhadas.push("Imagem de capa");
+    if (isEmpresa) {
+      _showStatus("A comprimir imagens (logo e capa)...", "loading");
+      logoBase64  = await compressImage(formData.logo,  800,  0.8);
+      coverBase64 = await compressImage(formData.cover, 1280, 0.75);
+      if (formData.logo  && !logoBase64)  imagensFalhadas.push("Logótipo");
+      if (formData.cover && !coverBase64) imagensFalhadas.push("Imagem de capa");
+    } else {
+      _showStatus("A comprimir foto de perfil...", "loading");
+      fotoBase64 = await compressImage(formData.foto, 800, 0.8);
+      if (formData.foto && !fotoBase64) imagensFalhadas.push("Foto de perfil");
+    }
 
-    // ── Comprimir + converter imagens dos serviços ────────
+    // ── Comprimir imagens dos serviços (só empresa) ───────
     const servicosComBase64 = [];
-    for (let i = 0; i < formData.servicos.length; i++) {
-      const s = formData.servicos[i];
-      _showStatus(`A comprimir imagem do serviço ${i + 1}/${formData.servicos.length}...`, "loading");
-      const imgBase64 = await compressImage(s.imagem, 1000, 0.7);
-      if (s.imagem && !imgBase64) imagensFalhadas.push(`Imagem do serviço "${s.nome || i + 1}"`);
-      servicosComBase64.push({
-        nome:         s.nome,
-        descricao:    s.descricao,
-        imagemBase64: imgBase64,
-      });
+    if (isEmpresa) {
+      for (let i = 0; i < formData.servicos.length; i++) {
+        const s = formData.servicos[i];
+        _showStatus(`A comprimir imagem do serviço ${i + 1}/${formData.servicos.length}...`, "loading");
+        const imgBase64 = await compressImage(s.imagem, 1000, 0.7);
+        if (s.imagem && !imgBase64) imagensFalhadas.push(`Imagem do serviço "${s.nome || i + 1}"`);
+        servicosComBase64.push({ nome: s.nome, descricao: s.descricao, imagemBase64: imgBase64 });
+      }
     }
 
     if (imagensFalhadas.length > 0) {
-      console.warn("Imagens ignoradas (formato não suportado ou ficheiro inválido):", imagensFalhadas);
+      console.warn("Imagens ignoradas:", imagensFalhadas);
     }
 
-    // ── Montar payload ────────────────────────────────────
-    const payload = {
-      nome:        formData.nome,
-      descricao:   formData.descricao,
-      badges:      formData.badges,
-      nuit:        formData.nuit,
-      fundacao:    formData.fundacao,
-      porte:       formData.porte,
-      industria:   formData.industria,
-      legalizada:  formData.legalizada,
-      provincia:   formData.provincia,
-      cidade:      formData.cidade,
-      endereco:    formData.endereco,
-      email:       formData.email,
-      telefone:    formData.telefone,
-      website:     formData.website,
-      linkedin:    formData.linkedin,
-      twitter:     formData.twitter,
-      logo:        logoBase64,
-      cover:       coverBase64,
-      servicos:    servicosComBase64,
-      stats:       formData.stats,
-    };
+    // ── Montar payload consoante a vertente ───────────────
+    let payload;
 
-    // ── Verificar tamanho total antes de enviar ───────────
+    if (isEmpresa) {
+      payload = {
+        vertente:   'empresa',
+        nome:       formData.nome,
+        descricao:  formData.descricao,
+        badges:     formData.badges     || [],
+        nuit:       formData.nuit       || "",
+        fundacao:   formData.fundacao   || "",
+        porte:      formData.porte      || "",
+        industria:  formData.industria  || "",
+        legalizada: formData.legalizada || "",
+        provincia:  formData.provincia  || "",
+        cidade:     formData.cidade     || "",
+        endereco:   formData.endereco   || "",
+        email:      formData.email      || "",
+        telefone:   formData.telefone   || "",
+        website:    formData.website    || "",
+        linkedin:   formData.linkedin   || "",
+        twitter:    formData.twitter    || "",
+        logo:       logoBase64,
+        cover:      coverBase64,
+        servicos:   servicosComBase64,
+        stats:      formData.stats      || {},
+      };
+    } else {
+      payload = {
+        vertente:     'individual',
+        nome:         formData.nome,
+        profissao:    formData.profissao    || "",
+        areas:        formData.areas        || "",
+        descricao:    formData.descricao,
+        provincia:    formData.provincia    || "",
+        cidade:       formData.cidade       || "",
+        email:        formData.email        || "",
+        telefone:     formData.telefone     || "",
+        website:      formData.website      || "",
+        linkedin:     formData.linkedin     || "",
+        twitter:      formData.twitter      || "",
+        foto:         fotoBase64,
+        competencias: formData.competencias || [],
+        servicosDesc: formData.servicosDesc || "",
+      };
+    }
+
+    // ── Verificar tamanho ─────────────────────────────────
     const payloadStr = JSON.stringify(payload);
-    const totalMB = (payloadStr.length) / (1024 * 1024);
+    const totalMB    = payloadStr.length / (1024 * 1024);
     console.log("Tamanho total do payload: " + totalMB.toFixed(2) + " MB");
 
     if (totalMB > 35) {
@@ -147,21 +149,20 @@ async function submitCompanyToDrive(formData) {
       );
     }
 
-    // ── Enviar para o Apps Script ─────────────────────────
-    _showStatus("A enviar para Marketacess... isto pode demorar um pouco.", "loading");
+    // ── Enviar ────────────────────────────────────────────
+    _showStatus("A enviar para o servidor... isto pode demorar um pouco.", "loading");
 
-    const res = await fetchWithRetry(CONFIG.SCRIPT_URL, {
+    const res    = await fetchWithRetry(CONFIG.SCRIPT_URL, {
       method:  "POST",
-      headers: { "Content-Type": "text/plain" }, // evita preflight CORS
+      headers: { "Content-Type": "text/plain" },
       body:    payloadStr,
     });
-
     const result = await res.json();
 
     if (result.ok) {
-      let msg = `✅ "${result.empresa}" guardada com sucesso!`;
+      let msg = `✅ "${result.nome}" guardado com sucesso!`;
       if (imagensFalhadas.length > 0) {
-        msg += `<br><br>⚠️ Estas imagens não foram guardadas (formato não suportado, ex: HEIC do iPhone — converte para JPG/PNG e tenta de novo): ${imagensFalhadas.join(", ")}`;
+        msg += `<br><br>⚠️ Estas imagens não foram guardadas (formato não suportado): ${imagensFalhadas.join(", ")}`;
       }
       _showStatus(msg, "success");
     } else {
@@ -172,15 +173,14 @@ async function submitCompanyToDrive(formData) {
     console.error(err);
     let msg = err.message;
     if (msg === "Failed to fetch") {
-      msg = "Falha de ligação à internet ou ficheiros demasiado grandes. Verifica a tua ligação e tenta novamente, ou reduz o número de imagens.";
+      msg = "Falha de ligação à internet. Verifica a tua ligação e tenta novamente.";
     }
     _showStatus("❌ Erro: " + msg, "error");
   }
 }
 
 // ============================================================
-//  Fetch com retry automático (2 tentativas extra)
-//  Útil para redes móveis instáveis
+//  Fetch com retry
 // ============================================================
 async function fetchWithRetry(url, options, retries = 2, delayMs = 1500) {
   for (let attempt = 0; attempt <= retries; attempt++) {
@@ -195,7 +195,7 @@ async function fetchWithRetry(url, options, retries = 2, delayMs = 1500) {
 }
 
 // ============================================================
-//  UTILITÁRIO — mostrar mensagem de estado no ecrã
+//  Utilitário — mostrar estado
 // ============================================================
 function _showStatus(msg, type) {
   const el = document.getElementById("status-msg");
@@ -205,5 +205,4 @@ function _showStatus(msg, type) {
   el.style.display = "block";
 }
 
-// Função vazia — já não precisamos de Google OAuth
 function initGoogleDrive() {}

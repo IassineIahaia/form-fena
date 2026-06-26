@@ -3,14 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>B2B Mozambique — Registar Empresa</title>
+  <title>OHOLO Hub — Registar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <!-- ── Navbar ──────────────────────────────────────────────── -->
 <nav class="navbar">
-  <div class="navbar-brand">B2B Mozambique <span>/ Registar Empresa</span></div>
+  <div class="navbar-brand">OHOLO Hub <span>/ Registar</span></div>
   <span class="navbar-badge">Marketaccess</span>
 </nav>
 
@@ -18,17 +21,38 @@
 <div class="page-wrap">
 
   <div class="page-header">
-    <h1>Nova Empresa</h1>
-    <p>Preenche todos os campos. Os dados serão guardados directamente no Google Drive.</p>
+    <h1>Novo Registo</h1>
+    <p>Preenche todos os campos.</p>
   </div>
 
-  <!-- Steps -->
-  <div class="steps">
-    <div class="step active" id="step-1">1 · Identidade</div>
-    <div class="step" id="step-2">2 · Detalhes</div>
-    <div class="step" id="step-3">3 · Contactos</div>
-    <div class="step" id="step-4">4 · Serviços</div>
-    <div class="step" id="step-5">5 · Estatísticas</div>
+  <!-- ── Toggle Empresa / Individual ──────────────────────── -->
+  <div class="section" style="margin-bottom: 1.25rem;">
+    <div class="section-title">Tipo de Registo</div>
+    <div style="display:flex; gap:8px;">
+      <button type="button" id="toggle-empresa" onclick="setVertente('empresa')"
+        style="flex:1; padding:10px; border-radius:var(--radius-sm); border:none; cursor:pointer;
+               background:var(--green-dark); color:#fff; font-weight:600; font-size:.875rem;
+               display:flex; align-items:center; justify-content:center; gap:8px; transition:background .15s, color .15s, border .15s; font-family:inherit;">
+        <span class="icon" style="width:16px;height:16px">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        </span>
+        Empresa
+      </button>
+      <button type="button" id="toggle-individual" onclick="setVertente('individual')"
+        style="flex:1; padding:10px; border-radius:var(--radius-sm); border:1px solid var(--border); cursor:pointer;
+               background:var(--bg-card); color:var(--text-primary); font-weight:500; font-size:.875rem;
+               display:flex; align-items:center; justify-content:center; gap:8px; transition:background .15s, color .15s, border .15s; font-family:inherit;">
+        <span class="icon" style="width:16px;height:16px">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        </span>
+        Individual
+      </button>
+    </div>
+  </div>
+
+  <!-- Steps — actualizados dinamicamente -->
+  <div class="steps" id="steps-bar">
+    <!-- preenchido por renderSteps() -->
   </div>
 
   <!-- Mensagem de estado -->
@@ -37,9 +61,9 @@
   <form id="company-form" novalidate>
 
     <!-- ══════════════════════════════════════════════════════
-         SECÇÃO 1 — IDENTIDADE
+         SECÇÃO 1 — IDENTIDADE (EMPRESA)
     ══════════════════════════════════════════════════════ -->
-    <div class="section">
+    <div class="section" id="sec-identidade-empresa">
       <div class="section-title">Identidade da Empresa</div>
 
       <div class="field">
@@ -92,9 +116,48 @@
     </div>
 
     <!-- ══════════════════════════════════════════════════════
-         SECÇÃO 2 — DETALHES DA EMPRESA
+         SECÇÃO 1 — IDENTIDADE (INDIVIDUAL)
     ══════════════════════════════════════════════════════ -->
-    <div class="section">
+    <div class="section" id="sec-identidade-individual" style="display:none">
+      <div class="section-title">Identidade Pessoal</div>
+
+      <div class="row-2">
+        <div class="field">
+          <label>Nome completo <span class="req">*</span></label>
+          <input type="text" id="ind-nome" placeholder="Ex: João Manuel Maputo">
+        </div>
+        <div class="field">
+          <label>Profissão / Área</label>
+          <input type="text" id="ind-profissao" placeholder="Ex: Consultor, Engenheiro, Agricultor">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Foto de perfil</label>
+        <div class="upload-box">
+          <input type="file" id="ind-foto-input" accept="image/*" onchange="previewImage(this,'ind-foto-preview')">
+          <div class="upload-icon">👤</div>
+          <div class="upload-label"><strong>Clica</strong> para seleccionar</div>
+          <div class="hint">JPG, PNG — foto profissional recomendada</div>
+          <img id="ind-foto-preview" class="upload-preview">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Principais áreas de actuação</label>
+        <input type="text" id="ind-areas" placeholder="Ex: Logística, Exportação, Agronegócio">
+      </div>
+
+      <div class="field">
+        <label>Apresentação <span class="req">*</span></label>
+        <textarea id="ind-descricao" placeholder="Apresente-se brevemente — experiência, objectivos e mercados de interesse..."></textarea>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════
+         SECÇÃO 2 — DETALHES (só empresa)
+    ══════════════════════════════════════════════════════ -->
+    <div class="section" id="sec-detalhes">
       <div class="section-title">Detalhes da Empresa</div>
 
       <div class="row-3">
@@ -104,7 +167,7 @@
         </div>
         <div class="field">
           <label>Ano de fundação</label>
-          <input type="number" id="fundacao" placeholder="2012" min="1900" max="2025">
+          <input type="number" id="fundacao" placeholder="2012" min="1900" max="2026">
         </div>
         <div class="field">
           <label>Porte da empresa</label>
@@ -121,7 +184,7 @@
       <div class="row-2">
         <div class="field">
           <label>Indústria / Categoria <span class="req">*</span></label>
-          <select id="industria" required>
+          <select id="industria">
             <option value="">Selecionar</option>
             <option>Agricultura, pecuária e natureza</option>
             <option>Logística &amp; Supply Chain</option>
@@ -134,14 +197,14 @@
             <option>Moda, beleza e serviços pessoais</option>
             <option>Comunicação e tecnologia</option>
             <option>Turismo</option>
-            <option>restauração </option>
+            <option>Restauração</option>
             <option>BDS e ensino</option>
             <option>ICT</option>
           </select>
         </div>
         <div class="field">
           <label>A empresa está legalizada? <span class="req">*</span></label>
-          <select id="legalizada" required>
+          <select id="legalizada">
             <option value="">Selecionar</option>
             <option value="Sim">Sim</option>
             <option value="Não">Não</option>
@@ -152,7 +215,7 @@
       <div class="row-2">
         <div class="field">
           <label>Província <span class="req">*</span></label>
-          <select id="provincia" required>
+          <select id="provincia">
             <option value="">Selecionar</option>
             <option>Maputo Cidade</option>
             <option>Maputo</option>
@@ -180,9 +243,39 @@
     </div>
 
     <!-- ══════════════════════════════════════════════════════
-         SECÇÃO 3 — CONTACTOS
+         SECÇÃO 2 (individual) — LOCALIZAÇÃO
     ══════════════════════════════════════════════════════ -->
-    <div class="section">
+    <div class="section" id="sec-localizacao-individual" style="display:none">
+      <div class="section-title">Localização</div>
+      <div class="row-2">
+        <div class="field">
+          <label>Província <span class="req">*</span></label>
+          <select id="ind-provincia">
+            <option value="">Selecionar</option>
+            <option>Maputo Cidade</option>
+            <option>Maputo</option>
+            <option>Gaza</option>
+            <option>Inhambane</option>
+            <option>Sofala</option>
+            <option>Manica</option>
+            <option>Tete</option>
+            <option>Zambézia</option>
+            <option>Nampula</option>
+            <option>Cabo Delgado</option>
+            <option>Niassa</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Cidade</label>
+          <input type="text" id="ind-cidade" placeholder="Ex: Nampula">
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════
+         SECÇÃO 3 — CONTACTOS (partilhada)
+    ══════════════════════════════════════════════════════ -->
+    <div class="section" id="sec-contactos">
       <div class="section-title">Contactos</div>
 
       <div class="row-2">
@@ -214,14 +307,12 @@
     </div>
 
     <!-- ══════════════════════════════════════════════════════
-         SECÇÃO 4 — SERVIÇOS
+         SECÇÃO 4 — SERVIÇOS (só empresa)
     ══════════════════════════════════════════════════════ -->
-    <div class="section">
+    <div class="section" id="sec-servicos">
       <div class="section-title">Serviços Oferecidos</div>
 
-      <div id="services-container">
-        <!-- Serviços adicionados dinamicamente aqui -->
-      </div>
+      <div id="services-container"></div>
 
       <button type="button" class="btn-add" onclick="addService()">
         + Adicionar Serviço
@@ -229,9 +320,33 @@
     </div>
 
     <!-- ══════════════════════════════════════════════════════
-         SECÇÃO 5 — ESTATÍSTICAS
+         SECÇÃO 4 (individual) — COMPETÊNCIAS
     ══════════════════════════════════════════════════════ -->
-    <div class="section">
+    <div class="section" id="sec-competencias" style="display:none">
+      <div class="section-title">Competências &amp; Serviços</div>
+
+      <div class="field">
+        <label>O que oferece / procura</label>
+        <div class="badge-group" id="competencias-group">
+          <label class="badge-opt"><input type="checkbox" name="competencias" value="Consultoria"> Consultoria</label>
+          <label class="badge-opt"><input type="checkbox" name="competencias" value="Exportação"> Exportação</label>
+          <label class="badge-opt"><input type="checkbox" name="competencias" value="Distribuição"> Distribuição</label>
+          <label class="badge-opt"><input type="checkbox" name="competencias" value="Produção"> Produção</label>
+          <label class="badge-opt"><input type="checkbox" name="competencias" value="Parceria"> Parceria</label>
+          <label class="badge-opt"><input type="checkbox" name="competencias" value="Investimento"> Investimento</label>
+        </div>
+      </div>
+
+      <div class="field" style="margin-top:.75rem">
+        <label>Descrição detalhada dos serviços / competências</label>
+        <textarea id="ind-servicos-desc" placeholder="Descreva o que oferece ou procura no mercado..."></textarea>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════
+         SECÇÃO 5 — ESTATÍSTICAS (só empresa)
+    ══════════════════════════════════════════════════════ -->
+    <div class="section" id="sec-stats">
       <div class="section-title">Estatísticas da Empresa</div>
 
       <div class="stats-grid">
@@ -277,26 +392,78 @@
   </form>
 
   <div class="form-footer">
-    &copy; Iassine Iahaia - Marketaccess
+    &copy; Iassine Iahaia · OHOLO Hub · Marketaccess
   </div>
 
 </div><!-- /page-wrap -->
 
-<!-- ── Ficheiros do projecto ────────────────────────────────── -->
 <script src="config.js"></script>
 <script src="drive.js"></script>
 
-<!-- ── Lógica do formulário ────────────────────────────────── -->
 <script>
 
-// ── Contador de serviços ──────────────────────────────────
+// ── Estado global ─────────────────────────────────────────
 let serviceCount = 0;
+let vertente     = 'empresa'; // 'empresa' | 'individual'
 
-// Adiciona 1 serviço ao arrancar
+// ── Steps por vertente ────────────────────────────────────
+const STEPS_EMPRESA    = ['1 · Identidade', '2 · Detalhes', '3 · Contactos', '4 · Serviços', '5 · Estatísticas'];
+const STEPS_INDIVIDUAL = ['1 · Identidade', '2 · Localização', '3 · Contactos', '4 · Competências'];
+
+function renderSteps(list) {
+  const bar = document.getElementById('steps-bar');
+  bar.innerHTML = list.map((label, i) =>
+    `<div class="step" id="step-${i+1}">${label}</div>`
+  ).join('');
+}
+
+// ── Toggle empresa / individual ───────────────────────────
+function setVertente(v) {
+  vertente = v;
+  const isEmpresa = v === 'empresa';
+
+  // Visuais do toggle
+  const btnE = document.getElementById('toggle-empresa');
+  const btnI = document.getElementById('toggle-individual');
+  btnE.style.background = isEmpresa ? 'var(--green-dark)' : 'var(--bg-card)';
+  btnE.style.color      = isEmpresa ? '#fff' : 'var(--text-primary)';
+  btnE.style.border     = isEmpresa ? 'none' : '1px solid var(--border)';
+  btnI.style.background = isEmpresa ? 'var(--bg-card)' : 'var(--green-dark)';
+  btnI.style.color      = isEmpresa ? 'var(--text-primary)' : '#fff';
+  btnI.style.border     = isEmpresa ? '1px solid var(--border)' : 'none';
+
+  // Mostrar/ocultar secções
+  const show = id => document.getElementById(id).style.display = 'block';
+  const hide = id => document.getElementById(id).style.display = 'none';
+
+  if (isEmpresa) {
+    show('sec-identidade-empresa');
+    show('sec-detalhes');
+    show('sec-servicos');
+    show('sec-stats');
+    hide('sec-identidade-individual');
+    hide('sec-localizacao-individual');
+    hide('sec-competencias');
+    renderSteps(STEPS_EMPRESA);
+  } else {
+    hide('sec-identidade-empresa');
+    hide('sec-detalhes');
+    hide('sec-servicos');
+    hide('sec-stats');
+    show('sec-identidade-individual');
+    show('sec-localizacao-individual');
+    show('sec-competencias');
+    renderSteps(STEPS_INDIVIDUAL);
+  }
+
+  updateSteps();
+}
+
+// ── Arranque ──────────────────────────────────────────────
 window.addEventListener('load', () => {
   initGoogleDrive();
   addService();
-  updateSteps();
+  setVertente('empresa');
 });
 
 // ── Adicionar bloco de serviço ────────────────────────────
@@ -332,13 +499,12 @@ function addService() {
   document.getElementById('services-container').appendChild(div);
 }
 
-// ── Remover serviço ────────────────────────────────────────
 function removeService(n) {
   const el = document.getElementById('service-' + n);
   if (el) el.remove();
 }
 
-// ── Preview de imagem ao seleccionar ──────────────────────
+// ── Preview de imagem ─────────────────────────────────────
 function previewImage(input, previewId) {
   const preview = document.getElementById(previewId);
   if (input.files && input.files[0]) {
@@ -351,12 +517,14 @@ function previewImage(input, previewId) {
   }
 }
 
-// ── Actualizar indicador de steps ─────────────────────────
+// ── Steps scroll ──────────────────────────────────────────
 function updateSteps() {
-  const steps = document.querySelectorAll('.step');
+  const steps    = document.querySelectorAll('.step');
+  const sections = [...document.querySelectorAll('.section')]
+    .filter(s => s.style.display !== 'none' && s.id !== 'sec-toggle');
+
   steps.forEach((s, i) => {
-    const sections = document.querySelectorAll('.section');
-    const section  = sections[i];
+    const section = sections[i + 1]; // +1 para saltar o toggle
     if (!section) return;
     const rect = section.getBoundingClientRect();
     if (rect.top < window.innerHeight / 2) {
@@ -367,95 +535,137 @@ function updateSteps() {
 }
 window.addEventListener('scroll', updateSteps);
 
-// ── Recolher dados de todos os serviços ───────────────────
+// ── Recolher serviços ─────────────────────────────────────
 function collectServices() {
-  const servicos = [];
+  const servicos  = [];
   const container = document.getElementById('services-container');
-  const blocks = container.querySelectorAll('.service-block');
-  blocks.forEach((block, i) => {
-    const n = block.id.replace('service-', '');
-    const nomeEl  = document.getElementById(`s${n}-nome`);
-    const descEl  = document.getElementById(`s${n}-desc`);
-    const imgEl   = document.getElementById(`s${n}-img`);
+  const blocks    = container.querySelectorAll('.service-block');
+  blocks.forEach(block => {
+    const n      = block.id.replace('service-', '');
+    const nomeEl = document.getElementById(`s${n}-nome`);
+    const descEl = document.getElementById(`s${n}-desc`);
+    const imgEl  = document.getElementById(`s${n}-img`);
     if (!nomeEl) return;
     servicos.push({
       nome:      nomeEl.value.trim(),
-      descricao: descEl  ? descEl.value.trim()  : '',
+      descricao: descEl ? descEl.value.trim() : '',
       imagem:    imgEl && imgEl.files[0] ? imgEl.files[0] : null,
     });
   });
   return servicos;
 }
 
-// ── Validação simples ─────────────────────────────────────
+// ── Validação ─────────────────────────────────────────────
 function validate() {
-  const nome = document.getElementById('nome').value.trim();
-  if (!nome) {
-    _showStatus('Por favor preenche o nome da empresa.', 'error');
-    document.getElementById('nome').focus();
-    return false;
-  }
-  const desc = document.getElementById('descricao').value.trim();
-  if (!desc) {
-    _showStatus('Por favor preenche a descrição da empresa.', 'error');
-    document.getElementById('descricao').focus();
-    return false;
+  if (vertente === 'empresa') {
+    const nome = document.getElementById('nome').value.trim();
+    if (!nome) {
+      _showStatus('Por favor preenche o nome da empresa.', 'error');
+      document.getElementById('nome').focus();
+      return false;
+    }
+    const desc = document.getElementById('descricao').value.trim();
+    if (!desc) {
+      _showStatus('Por favor preenche a descrição da empresa.', 'error');
+      document.getElementById('descricao').focus();
+      return false;
+    }
+  } else {
+    const nome = document.getElementById('ind-nome').value.trim();
+    if (!nome) {
+      _showStatus('Por favor preenche o teu nome completo.', 'error');
+      document.getElementById('ind-nome').focus();
+      return false;
+    }
+    const desc = document.getElementById('ind-descricao').value.trim();
+    if (!desc) {
+      _showStatus('Por favor preenche a tua apresentação.', 'error');
+      document.getElementById('ind-descricao').focus();
+      return false;
+    }
   }
   return true;
 }
 
-// ── Submeter formulário ───────────────────────────────────
+// ── Submeter ──────────────────────────────────────────────
 document.getElementById('company-form').addEventListener('submit', function(e) {
   e.preventDefault();
   e.stopPropagation();
   if (!validate()) return;
 
   const btn = document.getElementById('btn-submit');
-  btn.disabled = true;
+  btn.disabled    = true;
   btn.textContent = 'A guardar...';
 
-  // Recolher badges
-  const badges = [...document.querySelectorAll('input[name="badges"]:checked')]
-    .map(b => b.value);
+  let formData;
 
-  // Montar objecto de dados
-  const formData = {
-    nome:         document.getElementById('nome').value.trim(),
-    descricao:    document.getElementById('descricao').value.trim(),
-    badges,
-    nuit:         document.getElementById('nuit').value.trim(),
-    fundacao:     document.getElementById('fundacao').value,
-    porte:        document.getElementById('porte').value,
-    industria:    document.getElementById('industria').value,
-    legalizada:   document.getElementById('legalizada').value,
-    provincia:    document.getElementById('provincia').value,
-    cidade:       document.getElementById('cidade').value.trim(),
-    endereco:     document.getElementById('endereco').value.trim(),
-    email:        document.getElementById('email').value.trim(),
-    telefone:     document.getElementById('telefone').value.trim(),
-    website:      document.getElementById('website').value.trim(),
-    linkedin:     document.getElementById('linkedin').value.trim(),
-    twitter:      document.getElementById('twitter').value.trim(),
-    logo:         document.getElementById('logo-input').files[0]  || null,
-    cover:        document.getElementById('cover-input').files[0] || null,
-    servicos:     collectServices(),
-    stats: {
-      exp:      document.getElementById('stat-exp').value,
-      producao: document.getElementById('stat-producao').value,
-      vendas:   document.getElementById('stat-vendas').value,
-      extra:    document.getElementById('stat-extra').value,
-      labels: [
-        document.getElementById('label-1').value,
-        document.getElementById('label-2').value,
-        document.getElementById('label-3').value,
-        document.getElementById('label-4').value,
-      ],
-    },
-  };
+  if (vertente === 'empresa') {
+    const badges = [...document.querySelectorAll('input[name="badges"]:checked')]
+      .map(b => b.value);
 
-  // Enviar para o Drive
+    formData = {
+      vertente:   'empresa',
+      nome:       document.getElementById('nome').value.trim(),
+      descricao:  document.getElementById('descricao').value.trim(),
+      badges,
+      nuit:       document.getElementById('nuit').value.trim(),
+      fundacao:   document.getElementById('fundacao').value,
+      porte:      document.getElementById('porte').value,
+      industria:  document.getElementById('industria').value,
+      legalizada: document.getElementById('legalizada').value,
+      provincia:  document.getElementById('provincia').value,
+      cidade:     document.getElementById('cidade').value.trim(),
+      endereco:   document.getElementById('endereco').value.trim(),
+      email:      document.getElementById('email').value.trim(),
+      telefone:   document.getElementById('telefone').value.trim(),
+      website:    document.getElementById('website').value.trim(),
+      linkedin:   document.getElementById('linkedin').value.trim(),
+      twitter:    document.getElementById('twitter').value.trim(),
+      logo:       document.getElementById('logo-input').files[0]  || null,
+      cover:      document.getElementById('cover-input').files[0] || null,
+      servicos:   collectServices(),
+      stats: {
+        exp:      document.getElementById('stat-exp').value,
+        producao: document.getElementById('stat-producao').value,
+        vendas:   document.getElementById('stat-vendas').value,
+        extra:    document.getElementById('stat-extra').value,
+        labels: [
+          document.getElementById('label-1').value,
+          document.getElementById('label-2').value,
+          document.getElementById('label-3').value,
+          document.getElementById('label-4').value,
+        ],
+      },
+    };
+  } else {
+    const competencias = [...document.querySelectorAll('input[name="competencias"]:checked')]
+      .map(c => c.value);
+
+    formData = {
+      vertente:      'individual',
+      nome:          document.getElementById('ind-nome').value.trim(),
+      profissao:     document.getElementById('ind-profissao').value.trim(),
+      areas:         document.getElementById('ind-areas').value.trim(),
+      descricao:     document.getElementById('ind-descricao').value.trim(),
+      provincia:     document.getElementById('ind-provincia').value,
+      cidade:        document.getElementById('ind-cidade').value.trim(),
+      email:         document.getElementById('email').value.trim(),
+      telefone:      document.getElementById('telefone').value.trim(),
+      website:       document.getElementById('website').value.trim(),
+      linkedin:      document.getElementById('linkedin').value.trim(),
+      twitter:       document.getElementById('twitter').value.trim(),
+      foto:          document.getElementById('ind-foto-input').files[0] || null,
+      competencias,
+      servicosDesc:  document.getElementById('ind-servicos-desc').value.trim(),
+      // campos empresa vazios para compatibilidade com drive.js
+      badges: [], nuit: '', fundacao: '', porte: '', industria: '',
+      legalizada: '', endereco: '', logo: null, cover: null,
+      servicos: [], stats: { exp:'', producao:'', vendas:'', extra:'', labels:['','','',''] },
+    };
+  }
+
   submitCompanyToDrive(formData).finally(() => {
-    btn.disabled = false;
+    btn.disabled    = false;
     btn.textContent = 'Submeter →';
   });
 
@@ -467,13 +677,13 @@ function resetForm() {
   if (!confirm('Tens a certeza que queres limpar o formulário?')) return;
   document.getElementById('company-form').reset();
   document.querySelectorAll('.upload-preview').forEach(p => {
-    p.src = '';
-    p.style.display = 'none';
+    p.src = ''; p.style.display = 'none';
   });
   document.getElementById('services-container').innerHTML = '';
   serviceCount = 0;
   addService();
   document.getElementById('status-msg').style.display = 'none';
+  setVertente('empresa');
 }
 
 </script>

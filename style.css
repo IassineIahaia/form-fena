@@ -1,35 +1,41 @@
 /* ============================================================
-   style.css — B2B Mozambique · Formulário de Registo
-   Paleta: verde escuro #0F6E56 · branco · cinza suave
+   style.css — OHOLO Hub · Formulário de Registo
+   Paleta: laranja #e8590c · navy #0a2a52 · branco · cinza suave
    ============================================================ */
 
 /* ── Reset & Base ─────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --green-dark:   #0F6E56;
-  --green-mid:    #1D9E75;
-  --green-light:  #E1F5EE;
-  --green-border: #9FE1CB;
-  --text-primary: #1a1a1a;
+  /* Primária — OHOLO Orange */
+  --green-dark:   #e8590c;   /* era #0F6E56 */
+  --green-mid:    #ff7a26;   /* era #1D9E75 */
+  --green-light:  #fff1e6;   /* era #E1F5EE */
+  --green-border: #ffc49a;   /* era #9FE1CB */
+
+  /* Secundária — OHOLO Navy (usada em acentos) */
+  --navy:         #0a2a52;
+  --navy-mid:     #16345c;
+
+  --text-primary: #191c1e;
   --text-muted:   #6b7280;
   --text-hint:    #9ca3af;
-  --bg-page:      #f5f5f3;
+  --bg-page:      #f7f9fb;
   --bg-card:      #ffffff;
   --bg-input:     #fafafa;
-  --border:       #e5e7eb;
-  --border-focus: #1D9E75;
+  --border:       #e2e8f0;
+  --border-focus: #ff7a26;
   --radius-sm:    6px;
   --radius-md:    10px;
   --radius-lg:    14px;
   --shadow-card:  0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
-  --shadow-focus: 0 0 0 3px rgba(29,158,117,.15);
+  --shadow-focus: 0 0 0 3px rgba(232,89,12,.15);
 }
 
 html { font-size: 15px; }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   background:  var(--bg-page);
   color:       var(--text-primary);
   line-height: 1.6;
@@ -52,7 +58,7 @@ body {
 
 .navbar-brand {
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--green-dark);
   letter-spacing: -.01em;
 }
@@ -122,7 +128,7 @@ body {
   display: block;
   width: 3px;
   height: 14px;
-  background: var(--green-mid);
+  background: var(--green-dark);
   border-radius: 2px;
 }
 
@@ -138,7 +144,7 @@ label {
   margin-bottom: 5px;
 }
 
-label .req { color: var(--green-mid); margin-left: 2px; }
+label .req { color: var(--green-dark); margin-left: 2px; }
 
 input[type="text"],
 input[type="email"],
@@ -203,7 +209,7 @@ select {
   position: relative;
 }
 
-.upload-box:hover { border-color: var(--green-mid); background: var(--green-light); }
+.upload-box:hover { border-color: var(--green-dark); background: var(--green-light); }
 
 .upload-box input[type="file"] {
   position: absolute;
@@ -257,7 +263,7 @@ select {
 }
 
 .badge-opt:has(input:checked) {
-  border-color: var(--green-mid);
+  border-color: var(--green-dark);
   background: var(--green-light);
   color: var(--green-dark);
 }
@@ -452,7 +458,7 @@ select {
 }
 
 .step.done {
-  background: #f0fdf4;
+  background: #fff7f2;
   color: var(--green-mid);
 }
 
