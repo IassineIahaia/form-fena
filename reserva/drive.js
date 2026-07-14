@@ -96,7 +96,6 @@ async function submitCompanyToDrive(formData) {
     if (isEmpresa) {
       payload = {
         vertente:   'empresa',
-        evento:     formData.evento || "",
         nome:       formData.nome,
         descricao:  formData.descricao,
         badges:     formData.badges     || [],
@@ -121,7 +120,6 @@ async function submitCompanyToDrive(formData) {
     } else {
       payload = {
         vertente:     'individual',
-        evento:       formData.evento || "",
         nome:         formData.nome,
         profissao:    formData.profissao    || "",
         areas:        formData.areas        || "",

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FECAD — Inscrição de Participantes</title>
+  <title>OHOLO Hub — Registar</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -13,27 +13,18 @@
 
 <!-- ── Navbar ──────────────────────────────────────────────── -->
 <nav class="navbar">
-  <div class="navbar-brand">FECAD <span>/ Inscrição</span></div>
-  <span class="navbar-badge">OHOLO Hub</span>
+  <div class="navbar-brand">OHOLO Hub <span>/ Registar</span></div>
+  <span class="navbar-badge">Marketaccess</span>
 </nav>
 
 <!-- ── Página ──────────────────────────────────────────────── -->
 <div class="page-wrap">
 
-  <!-- ── Banner do evento — actualizar quando a data for confirmada ── -->
-  <div class="section" style="margin-bottom: 1.25rem; background:var(--green-dark); color:#fff;">
-    <div style="font-weight:700; font-size:1.05rem; margin-bottom:4px;">FECAD — Feira Económica de Cabo Delgado</div>
-    <p style="margin:0; font-size:.875rem; opacity:.92;">
-      O maior evento anual de exposição multissetorial da província, realizado habitualmente na cidade de Pemba.
-      <br><strong>Data:</strong> a confirmar em breve.
-    </p>
+  <div class="page-header">
+    <h1>Novo Registo</h1>
+    <p>Preenche todos os campos.</p>
   </div>
 
-  <div class="page-header">
-    <h1>Inscrição — FECAD</h1>
-    <p>Preenche todos os campos para garantir o teu lugar na feira.</p>
-  </div>
-  <input type="hidden" id="evento" value="FECAD">
   <!-- ── Toggle Empresa / Individual ──────────────────────── -->
   <div class="section" style="margin-bottom: 1.25rem;">
     <div class="section-title">Tipo de Registo</div>
@@ -614,7 +605,6 @@ document.getElementById('company-form').addEventListener('submit', function(e) {
 
     formData = {
       vertente:   'empresa',
-      evento:     document.getElementById('evento').value,
       nome:       document.getElementById('nome').value.trim(),
       descricao:  document.getElementById('descricao').value.trim(),
       badges,
@@ -653,7 +643,6 @@ document.getElementById('company-form').addEventListener('submit', function(e) {
 
     formData = {
       vertente:      'individual',
-      evento:        document.getElementById('evento').value,
       nome:          document.getElementById('ind-nome').value.trim(),
       profissao:     document.getElementById('ind-profissao').value.trim(),
       areas:         document.getElementById('ind-areas').value.trim(),
