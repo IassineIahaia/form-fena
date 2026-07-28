@@ -492,7 +492,7 @@
 
             <div class="form-group">
                 <label for="outroFile">Outro Documento (opcional)
-                    <span class="field-hint">Identidade visual, fotos de produtos, comprovativo NUIT, etc. · PDF, JPG ou PNG · máx. 5MB</span>
+                    <span class="field-hint">Comprovativo de NUIT, identidade visual da marca, etc. · PDF, JPG ou PNG · máx. 5MB</span>
                 </label>
                 <input type="file" id="outroFile" name="outro_arquivo" accept=".pdf,.jpg,.jpeg,.png">
             </div>
@@ -524,9 +524,9 @@
         </form>
     </div>
 
+    <script src="config.js"></script>
+    <script src="drive-facim.js"></script>
     <script>
-        // ⚠️ Substitui pelo URL de implementação (/exec) do teu Google Apps Script (OHOLO Hub)
-        const SCRIPT_URL = 'https://script.google.com/macros/s/SEU_SCRIPT_ID/exec';
         const MAX_FILE_SIZE_MB = 5;
 
         const form = document.getElementById('facimForm');
@@ -598,14 +598,9 @@
                 if (alvaraFile) payload.alvara = await fileToBase64(alvaraFile);
                 if (outroFile) payload.outro = await fileToBase64(outroFile);
 
-                // Content-Type text/plain evita preflight CORS bloqueado pelo Apps Script
-                const response = await fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify(payload)
-                });
-
-                const result = await response.json();
+                // submitFacimToDrive (drive-facim.js) usa o mesmo CONFIG.SCRIPT_URL
+                // e a mesma lógica de retry já comprovada no drive.js do OHOLO Hub
+                const result = await submitFacimToDrive(payload);
 
                 if (result.ok) {
                     successMessage.style.display = 'block';
@@ -617,6 +612,9 @@
                 }
             } catch (error) {
                 errorMessage.style.display = 'block';
+                errorMessage.querySelector('p').textContent = error.message === 'Failed to fetch'
+                    ? 'Falha de ligação à internet. Verifica a tua ligação e tenta novamente.'
+                    : (error.message || 'Ocorreu um erro ao processar a submissão. Por favor, tente novamente.');
                 successMessage.style.display = 'none';
                 console.error('Erro:', error);
             } finally {
