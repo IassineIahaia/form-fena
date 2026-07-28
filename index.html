@@ -15,9 +15,10 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #fff;
             min-height: 100vh;
-          }
-          
-          .form-container {
+            padding: 2rem 1rem;
+        }
+
+        .form-container {
             max-width: 720px;
             margin: 0 auto;
             background: rgba(255, 255, 255, 0.95);
@@ -26,10 +27,7 @@
             padding: 3rem;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.3);
-            @media (min-width: 48rem){
-              margin-top: 2rem ;
-            }
-          }
+        }
 
         .form-header {
             text-align: center;
@@ -278,7 +276,7 @@
 
         @media (max-width: 768px) {
             .form-container {
-                padding: 1rem;
+                padding: 2rem;
                 margin: 1rem;
             }
 
@@ -314,7 +312,7 @@
             </div>
         </div>
 
-        <form id="facimForm" action="https://formspree.io/f/YOUR_FORM_ID_FACIM" method="POST">
+        <form id="facimForm">
 
             <h2 class="section-title">Dados da Empresa</h2>
 
@@ -483,11 +481,25 @@
                 </div>
             </div>
 
+            <h2 class="section-title">Documentos</h2>
+
+            <div class="form-group">
+                <label for="alvaraFile">Alvará / Documento de Formalização <span class="required">*</span>
+                    <span class="field-hint">PDF, JPG ou PNG · máx. 5MB</span>
+                </label>
+                <input type="file" id="alvaraFile" name="alvara_arquivo" accept=".pdf,.jpg,.jpeg,.png" required>
+            </div>
+
+            <div class="form-group">
+                <label for="outroFile">Outro Documento (opcional)
+                    <span class="field-hint">Identidade visual, fotos de produtos, comprovativo NUIT, etc. · PDF, JPG ou PNG · máx. 5MB</span>
+                </label>
+                <input type="file" id="outroFile" name="outro_arquivo" accept=".pdf,.jpg,.jpeg,.png">
+            </div>
+
+            <p id="fileWarning" style="display:none; color:#d16b21; font-size:0.85rem; margin-top:-0.8rem; margin-bottom:1.2rem;"></p>
+
             <!-- Campos ocultos para identificar o tipo de formulário -->
-            <input type="hidden" name="tipo_formulario" value="Manifestação de Interesse FACIM 2026">
-            <input type="hidden" name="edicao" value="61.ª Edição">
-            <input type="hidden" name="prazo_submissao" value="31/07/2026">
-            <input type="hidden" name="periodo_facim" value="31/08/2026 a 06/09/2026">
 
             <button type="submit" class="submit-btn">
                 <span class="btn-text">Submeter Manifestação de Interesse</span>
@@ -513,35 +525,95 @@
     </div>
 
     <script>
+        // ⚠️ Substitui pelo URL de implementação (/exec) do teu Google Apps Script (OHOLO Hub)
+        const SCRIPT_URL = 'https://script.google.com/macros/s/SEU_SCRIPT_ID/exec';
+        const MAX_FILE_SIZE_MB = 5;
+
         const form = document.getElementById('facimForm');
         const submitBtn = form.querySelector('.submit-btn');
         const btnText = submitBtn.querySelector('.btn-text');
         const loading = submitBtn.querySelector('.loading');
         const successMessage = document.getElementById('successMessage');
         const errorMessage = document.getElementById('errorMessage');
+        const fileWarning = document.getElementById('fileWarning');
+
+        // Mantém o prefixo "data:mime;base64,..." — o script guardarImagem() precisa dele
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function validarTamanho(file) {
+            if (!file) return true;
+            return file.size <= MAX_FILE_SIZE_MB * 1024 * 1024;
+        }
+
+        function getCheckedValues(name) {
+            return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(cb => cb.value);
+        }
 
         form.addEventListener('submit', async function (e) {
             e.preventDefault();
+            fileWarning.style.display = 'none';
+
+            const alvaraFile = document.getElementById('alvaraFile').files[0];
+            const outroFile = document.getElementById('outroFile').files[0];
+
+            if (!validarTamanho(alvaraFile) || !validarTamanho(outroFile)) {
+                fileWarning.textContent = `Cada ficheiro deve ter no máximo ${MAX_FILE_SIZE_MB}MB.`;
+                fileWarning.style.display = 'block';
+                return;
+            }
 
             btnText.style.display = 'none';
             loading.style.display = 'flex';
             submitBtn.disabled = true;
 
             try {
-                const formData = new FormData(form);
-                const response = await fetch(form.action, {
+                // Payload alinhado com processarFacim2026(data) no Code.gs
+                const payload = {
+                    vertente: 'facim2026',
+                    nome: document.getElementById('nomeEmpresa').value,
+                    responsavel: document.getElementById('responsavel').value,
+                    cargo: document.getElementById('cargo').value,
+                    provincia: document.getElementById('provincia').value,
+                    anosActividade: document.getElementById('anosActividade').value,
+                    nuit: document.getElementById('nuit').value,
+                    telefone: document.getElementById('telefone').value,
+                    email: document.getElementById('email').value,
+                    produtosServicos: document.getElementById('produtosServicos').value,
+                    rotulagemConforme: (form.querySelector('input[name="rotulagem_conforme"]:checked') || {}).value || '',
+                    empresaFormalizada: (form.querySelector('input[name="empresa_formalizada"]:checked') || {}).value || '',
+                    capacidadeFinanceira: (form.querySelector('input[name="capacidade_financeira"]:checked') || {}).value || '',
+                    identidadeVisual: (form.querySelector('input[name="identidade_visual"]:checked') || {}).value || '',
+                    comparticipacaoStand: (form.querySelector('input[name="comparticipacao_stand"]:checked') || {}).value || '',
+                    participouFena: (form.querySelector('input[name="participou_fena"]:checked') || {}).value || '',
+                    lideranca: getCheckedValues('lideranca')
+                };
+
+                if (alvaraFile) payload.alvara = await fileToBase64(alvaraFile);
+                if (outroFile) payload.outro = await fileToBase64(outroFile);
+
+                // Content-Type text/plain evita preflight CORS bloqueado pelo Apps Script
+                const response = await fetch(SCRIPT_URL, {
                     method: 'POST',
-                    body: formData,
-                    headers: { 'Accept': 'application/json' }
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(payload)
                 });
 
-                if (response.ok) {
+                const result = await response.json();
+
+                if (result.ok) {
                     successMessage.style.display = 'block';
                     errorMessage.style.display = 'none';
                     form.reset();
                     successMessage.scrollIntoView({ behavior: 'smooth' });
                 } else {
-                    throw new Error('Erro na resposta do servidor');
+                    throw new Error(result.erro || 'Erro na resposta do servidor');
                 }
             } catch (error) {
                 errorMessage.style.display = 'block';
