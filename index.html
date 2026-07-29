@@ -1,639 +1,1033 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Manifestação de Interesse - 61.ª Edição da FACIM 2026</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #fff;
-            min-height: 100vh;
-            padding: 2rem 1rem;
-        }
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: #fff;
+        min-height: 100vh;
+        padding: 2rem 1rem;
+      }
 
+      .form-container {
+        max-width: 720px;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(15px);
+        border-radius: 20px;
+        padding: 3rem;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+
+      .form-header {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .form-title {
+        font-size: clamp(1.6rem, 4vw, 2.3rem);
+        font-weight: 800;
+        color: #8b4513;
+        margin-bottom: 1rem;
+        position: relative;
+      }
+
+      .form-title::after {
+        content: "";
+        position: absolute;
+        width: 80px;
+        height: 3px;
+        background: linear-gradient(45deg, #d16b21, #8b4513);
+        bottom: -8px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 2px;
+      }
+
+      .form-subtitle {
+        color: #666;
+        font-size: 1.05rem;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+        margin-top: 1.2rem;
+      }
+
+      .event-info {
+        background: linear-gradient(45deg, #d16b21, #8b4513);
+        color: white;
+        padding: 1.4rem;
+        border-radius: 15px;
+        margin-bottom: 1rem;
+        text-align: left;
+      }
+
+      .event-info h3 {
+        font-size: 1.15rem;
+        margin-bottom: 0.6rem;
+        text-align: center;
+      }
+
+      .event-info ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      .event-info li {
+        opacity: 0.95;
+        font-size: 0.95rem;
+        margin-bottom: 0.35rem;
+        padding-left: 1.2rem;
+        position: relative;
+      }
+
+      .event-info li::before {
+        content: "•";
+        position: absolute;
+        left: 0;
+      }
+
+      .deadline-banner {
+        background: #fff4ea;
+        border: 2px solid #d16b21;
+        color: #8b4513;
+        border-radius: 12px;
+        padding: 0.9rem 1.2rem;
+        text-align: center;
+        font-weight: 700;
+        margin-bottom: 2rem;
+        font-size: 0.95rem;
+      }
+
+      .section-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #8b4513;
+        margin-bottom: 1rem;
+        margin-top: 2rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #d16b21;
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        color: #333;
+        font-size: 1rem;
+      }
+
+      .field-hint {
+        display: block;
+        font-weight: 400;
+        color: #888;
+        font-size: 0.85rem;
+        margin-top: 0.3rem;
+      }
+
+      .required {
+        color: #d16b21;
+        font-weight: 700;
+      }
+
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        width: 100%;
+        padding: 1rem;
+        border: 2px solid #e0e0e0;
+        border-radius: 10px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: white;
+        font-family: inherit;
+      }
+
+      .form-group textarea {
+        resize: vertical;
+        min-height: 100px;
+      }
+
+      .form-group input:focus,
+      .form-group select:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: #d16b21;
+        box-shadow: 0 0 0 3px rgba(209, 107, 33, 0.1);
+      }
+
+      .radio-row,
+      .checkbox-row {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .radio-item,
+      .checkbox-item {
+        flex: 1;
+        min-width: 140px;
+        display: flex;
+        align-items: center;
+        padding: 0.9rem 1rem;
+        background: rgba(255, 255, 255, 0.7);
+        border: 2px solid #e0e0e0;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .radio-item:hover,
+      .checkbox-item:hover {
+        background: rgba(209, 107, 33, 0.08);
+        border-color: #d16b21;
+      }
+
+      .radio-item input,
+      .checkbox-item input {
+        width: auto;
+        margin-right: 0.6rem;
+        accent-color: #d16b21;
+        transform: scale(1.15);
+      }
+
+      .radio-item label,
+      .checkbox-item label {
+        margin: 0;
+        cursor: pointer;
+        font-weight: 500;
+        font-size: 0.95rem;
+      }
+
+      .confirm-block {
+        background: #fafafa;
+        border: 1px solid #eee;
+        border-radius: 12px;
+        padding: 1.2rem;
+        margin-bottom: 1.2rem;
+      }
+
+      .submit-btn {
+        width: 100%;
+        background: linear-gradient(45deg, #d16b21, #8b4513);
+        color: white;
+        padding: 1.2rem 2rem;
+        border: none;
+        border-radius: 50px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(209, 107, 33, 0.3);
+        margin-top: 1rem;
+      }
+
+      .submit-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(209, 107, 33, 0.4);
+      }
+
+      .submit-btn:active {
+        transform: translateY(-1px);
+      }
+
+      .success-message,
+      .error-message {
+        display: none;
+        padding: 1.5rem;
+        border-radius: 15px;
+        text-align: center;
+        margin-top: 2rem;
+      }
+
+      .success-message {
+        background: linear-gradient(45deg, #4caf50, #45a049);
+        color: white;
+      }
+
+      .error-message {
+        background: linear-gradient(45deg, #f44336, #da190b);
+        color: white;
+      }
+
+      .loading {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        color: white;
+      }
+
+      .loading svg {
+        animation: spin 1s linear infinite;
+        margin-right: 0.5rem;
+      }
+
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .servico-item {
+        background: #fafafa;
+        border: 1px solid #eee;
+        border-radius: 12px;
+        padding: 1.2rem;
+        margin-bottom: 1rem;
+        position: relative;
+      }
+
+      .servico-item-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.8rem;
+      }
+
+      .servico-item-title {
+        font-weight: 700;
+        color: #8b4513;
+        font-size: 0.95rem;
+      }
+
+      .remove-servico-btn {
+        background: none;
+        border: none;
+        color: #d16b21;
+        font-size: 0.85rem;
+        font-weight: 600;
+        cursor: pointer;
+        padding: 0.2rem 0.6rem;
+      }
+
+      .remove-servico-btn:hover {
+        text-decoration: underline;
+      }
+
+      .add-servico-btn {
+        width: 100%;
+        background: white;
+        color: #d16b21;
+        border: 2px dashed #d16b21;
+        border-radius: 10px;
+        padding: 0.9rem;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .add-servico-btn:hover {
+        background: rgba(209, 107, 33, 0.06);
+      }
+
+      @media (max-width: 768px) {
         .form-container {
-            max-width: 720px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(15px);
-            border-radius: 20px;
-            padding: 3rem;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .form-header {
-            text-align: center;
-            margin-bottom: 2rem;
+          padding: 2rem;
+          margin: 1rem;
         }
 
         .form-title {
-            font-size: clamp(1.6rem, 4vw, 2.3rem);
-            font-weight: 800;
-            color: #8B4513;
-            margin-bottom: 1rem;
-            position: relative;
+          font-size: 1.6rem;
         }
 
-        .form-title::after {
-            content: '';
-            position: absolute;
-            width: 80px;
-            height: 3px;
-            background: linear-gradient(45deg, #d16b21, #8B4513);
-            bottom: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-radius: 2px;
+        .radio-row,
+        .checkbox-row {
+          flex-direction: column;
         }
-
-        .form-subtitle {
-            color: #666;
-            font-size: 1.05rem;
-            line-height: 1.6;
-            margin-bottom: 1rem;
-            margin-top: 1.2rem;
-        }
-
-        .event-info {
-            background: linear-gradient(45deg, #d16b21, #8B4513);
-            color: white;
-            padding: 1.4rem;
-            border-radius: 15px;
-            margin-bottom: 1rem;
-            text-align: left;
-        }
-
-        .event-info h3 {
-            font-size: 1.15rem;
-            margin-bottom: 0.6rem;
-            text-align: center;
-        }
-
-        .event-info ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .event-info li {
-            opacity: 0.95;
-            font-size: 0.95rem;
-            margin-bottom: 0.35rem;
-            padding-left: 1.2rem;
-            position: relative;
-        }
-
-        .event-info li::before {
-            content: '•';
-            position: absolute;
-            left: 0;
-        }
-
-        .deadline-banner {
-            background: #fff4ea;
-            border: 2px solid #d16b21;
-            color: #8B4513;
-            border-radius: 12px;
-            padding: 0.9rem 1.2rem;
-            text-align: center;
-            font-weight: 700;
-            margin-bottom: 2rem;
-            font-size: 0.95rem;
-        }
-
-        .section-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #8B4513;
-            margin-bottom: 1rem;
-            margin-top: 2rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #d16b21;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: #333;
-            font-size: 1rem;
-        }
-
-        .field-hint {
-            display: block;
-            font-weight: 400;
-            color: #888;
-            font-size: 0.85rem;
-            margin-top: 0.3rem;
-        }
-
-        .required {
-            color: #d16b21;
-            font-weight: 700;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 1rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            background: white;
-            font-family: inherit;
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #d16b21;
-            box-shadow: 0 0 0 3px rgba(209, 107, 33, 0.1);
-        }
-
-        .radio-row, .checkbox-row {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .radio-item, .checkbox-item {
-            flex: 1;
-            min-width: 140px;
-            display: flex;
-            align-items: center;
-            padding: 0.9rem 1rem;
-            background: rgba(255, 255, 255, 0.7);
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .radio-item:hover, .checkbox-item:hover {
-            background: rgba(209, 107, 33, 0.08);
-            border-color: #d16b21;
-        }
-
-        .radio-item input, .checkbox-item input {
-            width: auto;
-            margin-right: 0.6rem;
-            accent-color: #d16b21;
-            transform: scale(1.15);
-        }
-
-        .radio-item label, .checkbox-item label {
-            margin: 0;
-            cursor: pointer;
-            font-weight: 500;
-            font-size: 0.95rem;
-        }
-
-        .confirm-block {
-            background: #fafafa;
-            border: 1px solid #eee;
-            border-radius: 12px;
-            padding: 1.2rem;
-            margin-bottom: 1.2rem;
-        }
-
-        .submit-btn {
-            width: 100%;
-            background: linear-gradient(45deg, #d16b21, #8B4513);
-            color: white;
-            padding: 1.2rem 2rem;
-            border: none;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(209, 107, 33, 0.3);
-            margin-top: 1rem;
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(209, 107, 33, 0.4);
-        }
-
-        .submit-btn:active {
-            transform: translateY(-1px);
-        }
-
-        .success-message, .error-message {
-            display: none;
-            padding: 1.5rem;
-            border-radius: 15px;
-            text-align: center;
-            margin-top: 2rem;
-        }
-
-        .success-message {
-            background: linear-gradient(45deg, #4CAF50, #45a049);
-            color: white;
-        }
-
-        .error-message {
-            background: linear-gradient(45deg, #f44336, #da190b);
-            color: white;
-        }
-
-        .loading {
-            display: none;
-            align-items: center;
-            justify-content: center;
-            color: white;
-        }
-
-        .loading svg {
-            animation: spin 1s linear infinite;
-            margin-right: 0.5rem;
-        }
-
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        @media (max-width: 768px) {
-            .form-container {
-                padding: 2rem;
-                margin: 1rem;
-            }
-
-            .form-title {
-                font-size: 1.6rem;
-            }
-
-            .radio-row, .checkbox-row {
-                flex-direction: column;
-            }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="form-container">
-        <div class="form-header">
-            <h1 class="form-title">Manifestação de Interesse</h1>
-            <p class="form-subtitle">Participação na 61.ª Edição da FACIM 2026 — mobilização de empresas de Nampula, Niassa, Cabo Delgado e do Distrito de Mocuba, com o apoio da Market Access / Technoserve.</p>
+      <div class="form-header">
+        <h1 class="form-title">Manifestação de Interesse</h1>
+        <p class="form-subtitle">
+          Participação na 61.ª Edição da FACIM 2026 — mobilização de empresas de
+          Nampula, Niassa, Cabo Delgado e do Distrito de Mocuba, com o apoio da
+          Market Access / Technoserve.
+        </p>
 
-            <div class="event-info">
-                <h3>Elegibilidade</h3>
-                <ul>
-                    <li>Empresa sediada em Nampula, Niassa, Cabo Delgado ou no Distrito de Mocuba</li>
-                    <li>Mínimo de 2 anos de exercício de actividade</li>
-                    <li>Produto/serviço e modelo de negócio consolidados</li>
-                    <li>Empresa formalizada (com alvará e início de actividade)</li>
-                    <li>Capacidade para custear alojamento e alimentação durante a FACIM (em Maputo)</li>
-                </ul>
-            </div>
-
-            <div class="deadline-banner">
-                Submissão até 31 de Julho de 2026 · FACIM: 31 de Agosto a 6 de Setembro de 2026
-            </div>
+        <div class="event-info">
+          <h3>Elegibilidade</h3>
+          <ul>
+            <li>
+              Empresa sediada em Nampula, Niassa, Cabo Delgado ou no Distrito de
+              Mocuba
+            </li>
+            <li>Mínimo de 2 anos de exercício de actividade</li>
+            <li>Produto/serviço e modelo de negócio consolidados</li>
+            <li>Empresa formalizada (com alvará e início de actividade)</li>
+            <li>
+              Capacidade para custear alojamento e alimentação durante a FACIM
+              (em Maputo)
+            </li>
+          </ul>
         </div>
 
-        <form id="facimForm">
+        <div class="deadline-banner">
+          Submissão até 31 de Julho de 2026 · FACIM: 31 de Agosto a 6 de
+          Setembro de 2026
+        </div>
+      </div>
 
-            <h2 class="section-title">Dados da Empresa</h2>
+      <form id="facimForm">
+        <h2 class="section-title">Dados da Empresa</h2>
 
-            <div class="form-group">
-                <label for="nomeEmpresa">Nome da Empresa <span class="required">*</span></label>
-                <input type="text" id="nomeEmpresa" name="nome_empresa" required>
+        <div class="form-group">
+          <label for="nomeEmpresa"
+            >Nome da Empresa <span class="required">*</span></label
+          >
+          <input type="text" id="nomeEmpresa" name="nome_empresa" required />
+        </div>
+
+        <div class="form-group">
+          <label for="responsavel"
+            >Nome do Responsável <span class="required">*</span></label
+          >
+          <input
+            type="text"
+            id="responsavel"
+            name="nome_responsavel"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="cargo">Cargo do Responsável</label>
+          <input type="text" id="cargo" name="cargo" />
+        </div>
+
+        <div class="form-group">
+          <label for="provincia"
+            >Província / Distrito Sede <span class="required">*</span></label
+          >
+          <select id="provincia" name="provincia" required>
+            <option value="">Selecione</option>
+            <option value="Nampula">Nampula</option>
+            <option value="Niassa">Niassa</option>
+            <option value="Cabo Delgado">Cabo Delgado</option>
+            <option value="Distrito de Mocuba">Distrito de Mocuba</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="anosActividade"
+            >Anos de Exercício de Actividade <span class="required">*</span>
+            <span class="field-hint"
+              >Requisito mínimo: 2 anos de existência formal</span
+            >
+          </label>
+          <input
+            type="number"
+            id="anosActividade"
+            name="anos_actividade"
+            min="0"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="nuit"
+            >NUIT da Empresa <span class="required">*</span></label
+          >
+          <input type="text" id="nuit" name="nuit" required />
+        </div>
+
+        <div class="form-group">
+          <label for="telefone"
+            >Contacto Telefónico <span class="required">*</span></label
+          >
+          <input type="tel" id="telefone" name="telefone" required />
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email <span class="required">*</span></label>
+          <input type="email" id="email" name="email" required />
+        </div>
+
+        <h2 class="section-title">Actividade e Produtos</h2>
+
+        <div class="form-group">
+          <label for="produtosServicos"
+            >Produtos/Serviços e Modelo de Negócio
+            <span class="required">*</span>
+            <span class="field-hint"
+              >Descreva brevemente o que a empresa produz/oferece e como
+              funciona o negócio</span
+            >
+          </label>
+          <textarea
+            id="produtosServicos"
+            name="produtos_servicos"
+            required
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="capaFile"
+            >Foto de Capa da Empresa
+            <span class="field-hint"
+              >Imagem de destaque, usada como banner do perfil · JPG ou
+              PNG</span
+            >
+          </label>
+          <input
+            type="file"
+            id="capaFile"
+            name="capa_arquivo"
+            accept="image/*"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="logoFile"
+            >Logótipo da Empresa
+            <span class="field-hint">JPG ou PNG</span>
+          </label>
+          <input
+            type="file"
+            id="logoFile"
+            name="logo_arquivo"
+            accept="image/*"
+          />
+        </div>
+
+        <div class="form-group">
+          <label
+            >Produtos/Serviços (com foto e descrição)
+            <span class="field-hint"
+              >Adiciona uma foto, o nome e uma breve descrição para cada produto
+              ou serviço</span
+            >
+          </label>
+          <div id="servicosContainer"></div>
+          <button type="button" id="addServicoBtn" class="add-servico-btn">
+            + Adicionar Produto/Serviço
+          </button>
+        </div>
+
+        <template id="servicoItemTemplate">
+          <div class="servico-item">
+            <div class="servico-item-header">
+              <span class="servico-item-title">Produto/Serviço</span>
+              <button type="button" class="remove-servico-btn">Remover</button>
             </div>
-
-            <div class="form-group">
-                <label for="responsavel">Nome do Responsável <span class="required">*</span></label>
-                <input type="text" id="responsavel" name="nome_responsavel" required>
+            <div class="form-group" style="margin-bottom: 0.8rem">
+              <label style="font-size: 0.9rem">Foto</label>
+              <input type="file" class="servico-imagem" accept="image/*" />
             </div>
-
-            <div class="form-group">
-                <label for="cargo">Cargo do Responsável</label>
-                <input type="text" id="cargo" name="cargo">
+            <div class="form-group" style="margin-bottom: 0.8rem">
+              <label style="font-size: 0.9rem">Nome do Produto/Serviço</label>
+              <input
+                type="text"
+                class="servico-nome"
+                placeholder="Ex: Transporte de Cargas"
+              />
             </div>
-
-            <div class="form-group">
-                <label for="provincia">Província / Distrito Sede <span class="required">*</span></label>
-                <select id="provincia" name="provincia" required>
-                    <option value="">Selecione</option>
-                    <option value="Nampula">Nampula</option>
-                    <option value="Niassa">Niassa</option>
-                    <option value="Cabo Delgado">Cabo Delgado</option>
-                    <option value="Distrito de Mocuba">Distrito de Mocuba</option>
-                </select>
+            <div class="form-group" style="margin-bottom: 0">
+              <label style="font-size: 0.9rem">Descrição</label>
+              <textarea
+                class="servico-descricao"
+                placeholder="Descreve brevemente este produto ou serviço"
+              ></textarea>
             </div>
+          </div>
+        </template>
 
-            <div class="form-group">
-                <label for="anosActividade">Anos de Exercício de Actividade <span class="required">*</span>
-                    <span class="field-hint">Requisito mínimo: 2 anos de existência formal</span>
-                </label>
-                <input type="number" id="anosActividade" name="anos_actividade" min="0" required>
+        <div class="form-group">
+          <label
+            >Os produtos estão devidamente rotulados, em conformidade com a
+            legislação aplicável? <span class="required">*</span></label
+          >
+          <div class="radio-row">
+            <div class="radio-item">
+              <input
+                type="radio"
+                id="rotulagemSim"
+                name="rotulagem_conforme"
+                value="Sim"
+                required
+              />
+              <label for="rotulagemSim">Sim</label>
             </div>
-
-            <div class="form-group">
-                <label for="nuit">NUIT da Empresa <span class="required">*</span></label>
-                <input type="text" id="nuit" name="nuit" required>
+            <div class="radio-item">
+              <input
+                type="radio"
+                id="rotulagemNao"
+                name="rotulagem_conforme"
+                value="Não"
+              />
+              <label for="rotulagemNao">Não</label>
             </div>
-
-            <div class="form-group">
-                <label for="telefone">Contacto Telefónico <span class="required">*</span></label>
-                <input type="tel" id="telefone" name="telefone" required>
+            <div class="radio-item">
+              <input
+                type="radio"
+                id="rotulagemNA"
+                name="rotulagem_conforme"
+                value="Não aplicável"
+              />
+              <label for="rotulagemNA">Não aplicável</label>
             </div>
+          </div>
+        </div>
 
-            <div class="form-group">
-                <label for="email">Email <span class="required">*</span></label>
-                <input type="email" id="email" name="email" required>
+        <h2 class="section-title">Formalização e Capacidade</h2>
+
+        <div class="confirm-block">
+          <div class="form-group" style="margin-bottom: 1rem">
+            <label
+              >Empresa formalmente constituída (alvará e início de actividade)?
+              <span class="required">*</span></label
+            >
+            <div class="radio-row">
+              <div class="radio-item">
+                <input
+                  type="radio"
+                  id="formalSim"
+                  name="empresa_formalizada"
+                  value="Sim"
+                  required
+                />
+                <label for="formalSim">Sim</label>
+              </div>
+              <div class="radio-item">
+                <input
+                  type="radio"
+                  id="formalNao"
+                  name="empresa_formalizada"
+                  value="Não"
+                />
+                <label for="formalNao">Não</label>
+              </div>
             </div>
+          </div>
 
-            <h2 class="section-title">Actividade e Produtos</h2>
-
-            <div class="form-group">
-                <label for="produtosServicos">Produtos/Serviços e Modelo de Negócio <span class="required">*</span>
-                    <span class="field-hint">Descreva brevemente o que a empresa produz/oferece e como funciona o negócio</span>
-                </label>
-                <textarea id="produtosServicos" name="produtos_servicos" required></textarea>
+          <div class="form-group" style="margin-bottom: 1rem">
+            <label
+              >Capacidade financeira para custear alojamento e alimentação em
+              Maputo durante a FACIM? <span class="required">*</span></label
+            >
+            <div class="radio-row">
+              <div class="radio-item">
+                <input
+                  type="radio"
+                  id="capFinSim"
+                  name="capacidade_financeira"
+                  value="Sim"
+                  required
+                />
+                <label for="capFinSim">Sim</label>
+              </div>
+              <div class="radio-item">
+                <input
+                  type="radio"
+                  id="capFinNao"
+                  name="capacidade_financeira"
+                  value="Não"
+                />
+                <label for="capFinNao">Não</label>
+              </div>
             </div>
+          </div>
 
-            <div class="form-group">
-                <label>Os produtos estão devidamente rotulados, em conformidade com a legislação aplicável? <span class="required">*</span></label>
-                <div class="radio-row">
-                    <div class="radio-item">
-                        <input type="radio" id="rotulagemSim" name="rotulagem_conforme" value="Sim" required>
-                        <label for="rotulagemSim">Sim</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" id="rotulagemNao" name="rotulagem_conforme" value="Não">
-                        <label for="rotulagemNao">Não</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" id="rotulagemNA" name="rotulagem_conforme" value="Não aplicável">
-                        <label for="rotulagemNA">Não aplicável</label>
-                    </div>
-                </div>
+          <div class="form-group" style="margin-bottom: 1rem">
+            <label
+              >Possui identidade visual definida (logótipo, cores, materiais de
+              marca)? <span class="required">*</span></label
+            >
+            <div class="radio-row">
+              <div class="radio-item">
+                <input
+                  type="radio"
+                  id="identSim"
+                  name="identidade_visual"
+                  value="Sim"
+                  required
+                />
+                <label for="identSim">Sim</label>
+              </div>
+              <div class="radio-item">
+                <input
+                  type="radio"
+                  id="identNao"
+                  name="identidade_visual"
+                  value="Não"
+                />
+                <label for="identNao">Não</label>
+              </div>
             </div>
+          </div>
 
-            <h2 class="section-title">Formalização e Capacidade</h2>
-
-            <div class="confirm-block">
-                <div class="form-group" style="margin-bottom: 1rem;">
-                    <label>Empresa formalmente constituída (alvará e início de actividade)? <span class="required">*</span></label>
-                    <div class="radio-row">
-                        <div class="radio-item">
-                            <input type="radio" id="formalSim" name="empresa_formalizada" value="Sim" required>
-                            <label for="formalSim">Sim</label>
-                        </div>
-                        <div class="radio-item">
-                            <input type="radio" id="formalNao" name="empresa_formalizada" value="Não">
-                            <label for="formalNao">Não</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group" style="margin-bottom: 1rem;">
-                    <label>Capacidade financeira para custear alojamento e alimentação em Maputo durante a FACIM? <span class="required">*</span></label>
-                    <div class="radio-row">
-                        <div class="radio-item">
-                            <input type="radio" id="capFinSim" name="capacidade_financeira" value="Sim" required>
-                            <label for="capFinSim">Sim</label>
-                        </div>
-                        <div class="radio-item">
-                            <input type="radio" id="capFinNao" name="capacidade_financeira" value="Não">
-                            <label for="capFinNao">Não</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group" style="margin-bottom: 1rem;">
-                    <label>Possui identidade visual definida (logótipo, cores, materiais de marca)? <span class="required">*</span></label>
-                    <div class="radio-row">
-                        <div class="radio-item">
-                            <input type="radio" id="identSim" name="identidade_visual" value="Sim" required>
-                            <label for="identSim">Sim</label>
-                        </div>
-                        <div class="radio-item">
-                            <input type="radio" id="identNao" name="identidade_visual" value="Não">
-                            <label for="identNao">Não</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group" style="margin-bottom: 0;">
-                    <label>Capacidade para comparticipar nos custos de personalização do stand? <span class="required">*</span></label>
-                    <div class="radio-row">
-                        <div class="radio-item">
-                            <input type="radio" id="standSim" name="comparticipacao_stand" value="Sim" required>
-                            <label for="standSim">Sim</label>
-                        </div>
-                        <div class="radio-item">
-                            <input type="radio" id="standNao" name="comparticipacao_stand" value="Não">
-                            <label for="standNao">Não</label>
-                        </div>
-                    </div>
-                </div>
+          <div class="form-group" style="margin-bottom: 0">
+            <label
+              >Capacidade para comparticipar nos custos de personalização do
+              stand? <span class="required">*</span></label
+            >
+            <div class="radio-row">
+              <div class="radio-item">
+                <input
+                  type="radio"
+                  id="standSim"
+                  name="comparticipacao_stand"
+                  value="Sim"
+                  required
+                />
+                <label for="standSim">Sim</label>
+              </div>
+              <div class="radio-item">
+                <input
+                  type="radio"
+                  id="standNao"
+                  name="comparticipacao_stand"
+                  value="Não"
+                />
+                <label for="standNao">Não</label>
+              </div>
             </div>
+          </div>
+        </div>
 
-            <h2 class="section-title">Informação Adicional</h2>
+        <h2 class="section-title">Informação Adicional</h2>
 
-            <div class="form-group">
-                <label>A empresa participou na FENA 2026? <span class="field-hint">(constitui uma vantagem)</span></label>
-                <div class="radio-row">
-                    <div class="radio-item">
-                        <input type="radio" id="fenaSim" name="participou_fena" value="Sim">
-                        <label for="fenaSim">Sim</label>
-                    </div>
-                    <div class="radio-item">
-                        <input type="radio" id="fenaNao" name="participou_fena" value="Não">
-                        <label for="fenaNao">Não</label>
-                    </div>
-                </div>
+        <div class="form-group">
+          <label
+            >A empresa participou na FENA 2026?
+            <span class="field-hint">(constitui uma vantagem)</span></label
+          >
+          <div class="radio-row">
+            <div class="radio-item">
+              <input
+                type="radio"
+                id="fenaSim"
+                name="participou_fena"
+                value="Sim"
+              />
+              <label for="fenaSim">Sim</label>
             </div>
-
-            <div class="form-group">
-                <label>Empresa liderada por mulheres e/ou jovens? <span class="field-hint">(a participação é incentivada)</span></label>
-                <div class="checkbox-row">
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="liderMulher" name="lideranca" value="Mulher">
-                        <label for="liderMulher">Liderada por mulher</label>
-                    </div>
-                    <div class="checkbox-item">
-                        <input type="checkbox" id="liderJovem" name="lideranca" value="Jovem">
-                        <label for="liderJovem">Liderada por jovem</label>
-                    </div>
-                </div>
+            <div class="radio-item">
+              <input
+                type="radio"
+                id="fenaNao"
+                name="participou_fena"
+                value="Não"
+              />
+              <label for="fenaNao">Não</label>
             </div>
+          </div>
+        </div>
 
-            <h2 class="section-title">Documentos</h2>
-
-            <div class="form-group">
-                <label for="alvaraFile">Alvará / Documento de Formalização <span class="required">*</span>
-                    <span class="field-hint">PDF, JPG ou PNG · máx. 5MB</span>
-                </label>
-                <input type="file" id="alvaraFile" name="alvara_arquivo" accept=".pdf,.jpg,.jpeg,.png" required>
+        <div class="form-group">
+          <label
+            >Empresa liderada por mulheres e/ou jovens?
+            <span class="field-hint"
+              >(a participação é incentivada)</span
+            ></label
+          >
+          <div class="checkbox-row">
+            <div class="checkbox-item">
+              <input
+                type="checkbox"
+                id="liderMulher"
+                name="lideranca"
+                value="Mulher"
+              />
+              <label for="liderMulher">Liderada por mulher</label>
             </div>
-
-            <div class="form-group">
-                <label for="outroFile">Outro Documento (opcional)
-                    <span class="field-hint">Comprovativo de NUIT, identidade visual da marca, etc. · PDF, JPG ou PNG · máx. 5MB</span>
-                </label>
-                <input type="file" id="outroFile" name="outro_arquivo" accept=".pdf,.jpg,.jpeg,.png">
+            <div class="checkbox-item">
+              <input
+                type="checkbox"
+                id="liderJovem"
+                name="lideranca"
+                value="Jovem"
+              />
+              <label for="liderJovem">Liderada por jovem</label>
             </div>
+          </div>
+        </div>
 
-            <p id="fileWarning" style="display:none; color:#d16b21; font-size:0.85rem; margin-top:-0.8rem; margin-bottom:1.2rem;"></p>
+        <h2 class="section-title">Documentos</h2>
 
-            <!-- Campos ocultos para identificar o tipo de formulário -->
+        <div class="form-group">
+          <label for="alvaraFile"
+            >Alvará / Documento de Formalização <span class="required">*</span>
+            <span class="field-hint">PDF, JPG ou PNG · máx. 5MB</span>
+          </label>
+          <input
+            type="file"
+            id="alvaraFile"
+            name="alvara_arquivo"
+            accept=".pdf,.jpg,.jpeg,.png"
+            required
+          />
+        </div>
 
-            <button type="submit" class="submit-btn">
-                <span class="btn-text">Submeter Manifestação de Interesse</span>
-                <div class="loading">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z" opacity="0.25"/>
-                        <path d="M12,4a8,8,0,0,1,7.89,6.7A1.53,1.53,0,0,0,21.38,12h0a1.5,1.5,0,0,0,1.48-1.75,11,11,0,0,0-21.72,0A1.5,1.5,0,0,0,2.62,12h0a1.53,1.53,0,0,0,1.49-1.3A8,8,0,0,1,12,4Z"/>
-                    </svg>
-                    Enviando...
-                </div>
-            </button>
+        <div class="form-group">
+          <label for="outroFile"
+            >Outro Documento (opcional)
+            <span class="field-hint"
+              >Comprovativo de NUIT, identidade visual da marca, etc. · PDF, JPG
+              ou PNG · máx. 5MB</span
+            >
+          </label>
+          <input
+            type="file"
+            id="outroFile"
+            name="outro_arquivo"
+            accept=".pdf,.jpg,.jpeg,.png"
+          />
+        </div>
 
-            <div class="success-message" id="successMessage">
-                <h3>✅ Manifestação de Interesse Recebida!</h3>
-                <p>Obrigado. A sua candidatura para a FACIM 2026 foi registada. Entraremos em contacto por email ou telefone.</p>
-            </div>
+        <p
+          id="fileWarning"
+          style="
+            display: none;
+            color: #d16b21;
+            font-size: 0.85rem;
+            margin-top: -0.8rem;
+            margin-bottom: 1.2rem;
+          "
+        ></p>
 
-            <div class="error-message" id="errorMessage">
-                <h3>❌ Erro no Envio</h3>
-                <p>Ocorreu um erro ao processar a submissão. Por favor, tente novamente.</p>
-            </div>
-        </form>
+        <!-- Campos ocultos para identificar o tipo de formulário -->
+
+        <button type="submit" class="submit-btn">
+          <span class="btn-text">Submeter Manifestação de Interesse</span>
+          <div class="loading">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z"
+                opacity="0.25"
+              />
+              <path
+                d="M12,4a8,8,0,0,1,7.89,6.7A1.53,1.53,0,0,0,21.38,12h0a1.5,1.5,0,0,0,1.48-1.75,11,11,0,0,0-21.72,0A1.5,1.5,0,0,0,2.62,12h0a1.53,1.53,0,0,0,1.49-1.3A8,8,0,0,1,12,4Z"
+              />
+            </svg>
+            Enviando...
+          </div>
+        </button>
+
+        <div class="success-message" id="successMessage">
+          <h3>✅ Manifestação de Interesse Recebida!</h3>
+          <p>
+            Obrigado. A sua candidatura para a FACIM 2026 foi registada.
+            Entraremos em contacto por email ou telefone.
+          </p>
+        </div>
+
+        <div class="error-message" id="errorMessage">
+          <h3>❌ Erro no Envio</h3>
+          <p>
+            Ocorreu um erro ao processar a submissão. Por favor, tente
+            novamente.
+          </p>
+        </div>
+      </form>
     </div>
 
     <script src="config.js"></script>
     <script src="drive-facim.js"></script>
     <script>
-        const MAX_FILE_SIZE_MB = 5;
+      const MAX_FILE_SIZE_MB = 5;
 
-        const form = document.getElementById('facimForm');
-        const submitBtn = form.querySelector('.submit-btn');
-        const btnText = submitBtn.querySelector('.btn-text');
-        const loading = submitBtn.querySelector('.loading');
-        const successMessage = document.getElementById('successMessage');
-        const errorMessage = document.getElementById('errorMessage');
-        const fileWarning = document.getElementById('fileWarning');
+      const form = document.getElementById("facimForm");
+      const submitBtn = form.querySelector(".submit-btn");
+      const btnText = submitBtn.querySelector(".btn-text");
+      const loading = submitBtn.querySelector(".loading");
+      const successMessage = document.getElementById("successMessage");
+      const errorMessage = document.getElementById("errorMessage");
+      const fileWarning = document.getElementById("fileWarning");
 
-        // Mantém o prefixo "data:mime;base64,..." — o script guardarImagem() precisa dele
-        function fileToBase64(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = reject;
-                reader.readAsDataURL(file);
-            });
-        }
-
-        function validarTamanho(file) {
-            if (!file) return true;
-            return file.size <= MAX_FILE_SIZE_MB * 1024 * 1024;
-        }
-
-        function getCheckedValues(name) {
-            return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(cb => cb.value);
-        }
-
-        form.addEventListener('submit', async function (e) {
-            e.preventDefault();
-            fileWarning.style.display = 'none';
-
-            const alvaraFile = document.getElementById('alvaraFile').files[0];
-            const outroFile = document.getElementById('outroFile').files[0];
-
-            if (!validarTamanho(alvaraFile) || !validarTamanho(outroFile)) {
-                fileWarning.textContent = `Cada ficheiro deve ter no máximo ${MAX_FILE_SIZE_MB}MB.`;
-                fileWarning.style.display = 'block';
-                return;
-            }
-
-            btnText.style.display = 'none';
-            loading.style.display = 'flex';
-            submitBtn.disabled = true;
-
-            try {
-                // Payload alinhado com processarFacim2026(data) no Code.gs
-                const payload = {
-                    vertente: 'facim2026',
-                    nome: document.getElementById('nomeEmpresa').value,
-                    responsavel: document.getElementById('responsavel').value,
-                    cargo: document.getElementById('cargo').value,
-                    provincia: document.getElementById('provincia').value,
-                    anosActividade: document.getElementById('anosActividade').value,
-                    nuit: document.getElementById('nuit').value,
-                    telefone: document.getElementById('telefone').value,
-                    email: document.getElementById('email').value,
-                    produtosServicos: document.getElementById('produtosServicos').value,
-                    rotulagemConforme: (form.querySelector('input[name="rotulagem_conforme"]:checked') || {}).value || '',
-                    empresaFormalizada: (form.querySelector('input[name="empresa_formalizada"]:checked') || {}).value || '',
-                    capacidadeFinanceira: (form.querySelector('input[name="capacidade_financeira"]:checked') || {}).value || '',
-                    identidadeVisual: (form.querySelector('input[name="identidade_visual"]:checked') || {}).value || '',
-                    comparticipacaoStand: (form.querySelector('input[name="comparticipacao_stand"]:checked') || {}).value || '',
-                    participouFena: (form.querySelector('input[name="participou_fena"]:checked') || {}).value || '',
-                    lideranca: getCheckedValues('lideranca')
-                };
-
-                if (alvaraFile) payload.alvara = await fileToBase64(alvaraFile);
-                if (outroFile) payload.outro = await fileToBase64(outroFile);
-
-                // submitFacimToDrive (drive-facim.js) usa o mesmo CONFIG.SCRIPT_URL
-                // e a mesma lógica de retry já comprovada no drive.js do OHOLO Hub
-                const result = await submitFacimToDrive(payload);
-
-                if (result.ok) {
-                    successMessage.style.display = 'block';
-                    errorMessage.style.display = 'none';
-                    form.reset();
-                    successMessage.scrollIntoView({ behavior: 'smooth' });
-                } else {
-                    throw new Error(result.erro || 'Erro na resposta do servidor');
-                }
-            } catch (error) {
-                errorMessage.style.display = 'block';
-                errorMessage.querySelector('p').textContent = error.message === 'Failed to fetch'
-                    ? 'Falha de ligação à internet. Verifica a tua ligação e tenta novamente.'
-                    : (error.message || 'Ocorreu um erro ao processar a submissão. Por favor, tente novamente.');
-                successMessage.style.display = 'none';
-                console.error('Erro:', error);
-            } finally {
-                btnText.style.display = 'inline';
-                loading.style.display = 'none';
-                submitBtn.disabled = false;
-            }
+      // Mantém o prefixo "data:mime;base64,..." — o script guardarImagem() precisa dele
+      function fileToBase64(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
         });
+      }
 
-        const requiredFields = document.querySelectorAll('input[required], select[required], textarea[required]');
-        requiredFields.forEach(field => {
-            field.addEventListener('blur', function () {
-                if (!this.value.trim()) {
-                    this.style.borderColor = '#f44336';
-                } else {
-                    this.style.borderColor = '#4CAF50';
-                }
-            });
+      function validarTamanho(file) {
+        if (!file) return true;
+        return file.size <= MAX_FILE_SIZE_MB * 1024 * 1024;
+      }
+
+      function getCheckedValues(name) {
+        return Array.from(
+          document.querySelectorAll(`input[name="${name}"]:checked`),
+        ).map((cb) => cb.value);
+      }
+
+      // ── Produtos/Serviços dinâmicos (foto + nome + descrição) ──
+      const servicosContainer = document.getElementById("servicosContainer");
+      const servicoTemplate = document.getElementById("servicoItemTemplate");
+      const addServicoBtn = document.getElementById("addServicoBtn");
+
+      function adicionarServicoItem() {
+        const clone = servicoTemplate.content.cloneNode(true);
+        const item = clone.querySelector(".servico-item");
+        item
+          .querySelector(".remove-servico-btn")
+          .addEventListener("click", () => item.remove());
+        servicosContainer.appendChild(clone);
+      }
+
+      addServicoBtn.addEventListener("click", adicionarServicoItem);
+      adicionarServicoItem(); // começa com 1 bloco visível
+
+      form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        fileWarning.style.display = "none";
+
+        const alvaraFile = document.getElementById("alvaraFile").files[0];
+        const outroFile = document.getElementById("outroFile").files[0];
+
+        if (!validarTamanho(alvaraFile) || !validarTamanho(outroFile)) {
+          fileWarning.textContent = `Cada ficheiro deve ter no máximo ${MAX_FILE_SIZE_MB}MB.`;
+          fileWarning.style.display = "block";
+          return;
+        }
+
+        btnText.style.display = "none";
+        loading.style.display = "flex";
+        submitBtn.disabled = true;
+
+        try {
+          // Payload alinhado com processarFacim2026(data) no Code.gs
+          const payload = {
+            vertente: "facim2026",
+            nome: document.getElementById("nomeEmpresa").value,
+            responsavel: document.getElementById("responsavel").value,
+            cargo: document.getElementById("cargo").value,
+            provincia: document.getElementById("provincia").value,
+            anosActividade: document.getElementById("anosActividade").value,
+            nuit: document.getElementById("nuit").value,
+            telefone: document.getElementById("telefone").value,
+            email: document.getElementById("email").value,
+            produtosServicos: document.getElementById("produtosServicos").value,
+            rotulagemConforme:
+              (
+                form.querySelector(
+                  'input[name="rotulagem_conforme"]:checked',
+                ) || {}
+              ).value || "",
+            empresaFormalizada:
+              (
+                form.querySelector(
+                  'input[name="empresa_formalizada"]:checked',
+                ) || {}
+              ).value || "",
+            capacidadeFinanceira:
+              (
+                form.querySelector(
+                  'input[name="capacidade_financeira"]:checked',
+                ) || {}
+              ).value || "",
+            identidadeVisual:
+              (
+                form.querySelector('input[name="identidade_visual"]:checked') ||
+                {}
+              ).value || "",
+            comparticipacaoStand:
+              (
+                form.querySelector(
+                  'input[name="comparticipacao_stand"]:checked',
+                ) || {}
+              ).value || "",
+            participouFena:
+              (
+                form.querySelector('input[name="participou_fena"]:checked') ||
+                {}
+              ).value || "",
+            lideranca: getCheckedValues("lideranca"),
+          };
+
+          if (alvaraFile) payload.alvara = await fileToBase64(alvaraFile);
+          if (outroFile) payload.outro = await fileToBase64(outroFile);
+
+          // Capa e logótipo — comprimidos (mesma lógica do drive.js) para manter o payload leve
+          const capaFile = document.getElementById("capaFile").files[0];
+          const logoFile = document.getElementById("logoFile").files[0];
+          btnText.style.display = "none";
+          if (capaFile)
+            payload.cover = await compressImage(capaFile, 1280, 0.75);
+          if (logoFile) payload.logo = await compressImage(logoFile, 800, 0.8);
+
+          // Produtos/Serviços — cada um com foto (comprimida), nome e descrição
+          const servicoItems = Array.from(
+            document.querySelectorAll(".servico-item"),
+          );
+          payload.servicos = [];
+          for (const item of servicoItems) {
+            const nome = item.querySelector(".servico-nome").value.trim();
+            const descricao = item
+              .querySelector(".servico-descricao")
+              .value.trim();
+            const imagemFile = item.querySelector(".servico-imagem").files[0];
+            if (!nome && !descricao && !imagemFile) continue; // ignora blocos vazios
+            const imagemBase64 = imagemFile
+              ? await compressImage(imagemFile, 1000, 0.7)
+              : null;
+            payload.servicos.push({ nome, descricao, imagemBase64 });
+          }
+
+          // submitFacimToDrive (drive-facim.js) usa o mesmo CONFIG.SCRIPT_URL
+          // e a mesma lógica de retry já comprovada no drive.js do OHOLO Hub
+          const result = await submitFacimToDrive(payload);
+
+          if (result.ok) {
+            successMessage.style.display = "block";
+            errorMessage.style.display = "none";
+            form.reset();
+            successMessage.scrollIntoView({ behavior: "smooth" });
+          } else {
+            throw new Error(result.erro || "Erro na resposta do servidor");
+          }
+        } catch (error) {
+          errorMessage.style.display = "block";
+          errorMessage.querySelector("p").textContent =
+            error.message === "Failed to fetch"
+              ? "Falha de ligação à internet. Verifica a tua ligação e tenta novamente."
+              : error.message ||
+                "Ocorreu um erro ao processar a submissão. Por favor, tente novamente.";
+          successMessage.style.display = "none";
+          console.error("Erro:", error);
+        } finally {
+          btnText.style.display = "inline";
+          loading.style.display = "none";
+          submitBtn.disabled = false;
+        }
+      });
+
+      const requiredFields = document.querySelectorAll(
+        "input[required], select[required], textarea[required]",
+      );
+      requiredFields.forEach((field) => {
+        field.addEventListener("blur", function () {
+          if (!this.value.trim()) {
+            this.style.borderColor = "#f44336";
+          } else {
+            this.style.borderColor = "#4CAF50";
+          }
         });
+      });
     </script>
-</body>
+  </body>
 </html>
